@@ -184,6 +184,7 @@ const PRODUCTS = {
   },
   'gold-strike':{
     name:'Gold Strike EA©', price:149, icon:'⚡', stars:4, reviews:61,
+    paypal:'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8',
     cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
     desc:{ar:'روبوت الضربة الذهبية السريع — يستهدف الاندفاعات القوية في XAU/USD بدقة عالية على M15 و H1.',
           en:'Fast gold strike robot — targets strong momentum moves in XAU/USD with precision on M15 & H1.'},
@@ -314,7 +315,8 @@ function render() {
 
   // Buttons
   document.getElementById('btnBuy').href    = 'checkout.html?product=' + encodeURIComponent(p.name) + '&price=' + p.price + '&id=' + id + '&lang=' + L;
-  document.getElementById('btnPaypal').href = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + p.price + 'USD';
+  document.getElementById('btnPaypal').href = p.paypal;
+  //document.getElementById('btnPaypal').href = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + p.price + 'USD';
 
   // Stars
   document.getElementById('pStars').innerHTML =
