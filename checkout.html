@@ -232,11 +232,15 @@ document.getElementById('sumPrice').textContent = '$' + price;
 document.getElementById('sumTotal').textContent = '$' + price;
 document.getElementById('sumIcon').textContent  = icons[productId] || '📦';
 
-const paypalURL = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + price + 'USD';
-document.getElementById('paypal-link').href  = paypalURL;
-document.getElementById('paypal-debit').href = paypalURL;
-document.getElementById('card-link').href    = paypalURL;
+//const paypalURL = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + price + 'USD';
+//document.getElementById('paypal-link').href  = paypalURL;
+//document.getElementById('paypal-debit').href = paypalURL;
+//document.getElementById('card-link').href    = paypalURL;
 
+document.getElementById('paypal-link').href = p.paypal;
+document.getElementById('paypal-debit').href = p.paypal;
+document.getElementById('card-link').href = p.paypal;
+  
 // ── Payment method toggle ─────────────────────────────────
 function switchMethod(m) {
   document.getElementById('m-paypal').classList.toggle('active', m === 'paypal');
