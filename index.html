@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BENTRADE — أدوات التداول الاحترافية</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,0.10);
+  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;--bg-hover:#162535;
+  --border:#1a2e3e;--border-gold:#3a2e18;
+  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+  --green:#2ecc71;--red:#e74c3c;--blue:#3498db;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.page{position:relative;z-index:1}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:12px 36px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97);position:sticky;top:0;z-index:200;backdrop-filter:blur(14px)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.logo-img-wrap{width:42px;height:42px;border-radius:10px;border:.5px solid var(--border-gold);background:var(--gold-glow);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.logo-img-wrap img{width:100%;height:100%;object-fit:contain;display:none}
+.logo-placeholder{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--gold)}
+.logo-text-wrap .name{font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--gold);letter-spacing:.06em}
+.logo-text-wrap .sub{font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-secure{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary)}
+.shield-box{width:30px;height:30px;background:rgba(46,204,113,.1);border:.5px solid rgba(46,204,113,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+/* Language toggle */
+.lang-btn{padding:6px 14px;border-radius:20px;border:.5px solid var(--border-gold);background:var(--gold-glow);color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.lang-btn:hover{background:rgba(200,168,75,.2)}
+
+/* TRUST */
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:28px;padding:16px 36px;border-bottom:.5px solid var(--border);background:var(--bg-card);flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary)}
+.trust-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.t-g{background:rgba(46,204,113,.1)}.t-o{background:var(--gold-glow)}.t-b{background:rgba(52,152,219,.1)}
+
+/* HERO */
+.hero{text-align:center;padding:60px 36px 36px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;border:.5px solid var(--border-gold);background:var(--gold-glow);padding:5px 16px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,4.5vw,50px);font-weight:800;line-height:1.1;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-desc{max-width:540px;margin:0 auto 32px;font-size:14px;color:var(--text-secondary);line-height:1.75}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:36px;padding:22px 0;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border)}
+.stat-num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--gold);display:block}
+.stat-lbl{font-size:11px;color:var(--text-muted)}
+.hdivider{width:1px;height:32px;background:var(--border)}
+
+/* CATALOG NAVIGATION */
+.catalog-nav{padding:28px 36px 0}
+.cat-tabs{display:flex;gap:6px;border-bottom:.5px solid var(--border);overflow-x:auto;padding-bottom:0}
+.cat-tab{padding:11px 22px;border:none;background:transparent;color:var(--text-secondary);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.cat-tab:hover{color:var(--text-primary)}
+.cat-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.cat-tab-icon{font-size:16px}
+
+/* MT4/MT5 sub-tabs */
+.sub-tabs-wrap{padding:16px 36px 0;display:none}
+.sub-tabs-wrap.show{display:block}
+.sub-tabs{display:flex;gap:8px}
+.sub-tab{padding:6px 18px;border-radius:20px;border:.5px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s}
+.sub-tab:hover{color:var(--text-primary);border-color:var(--gold-dim)}
+.sub-tab.active{background:var(--gold-glow);color:var(--gold);border-color:var(--gold-dim)}
+
+/* PRODUCTS */
+.products-section{padding:20px 36px 80px}
+.section-header{margin-bottom:20px}
+.section-title-big{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--text-primary);margin-bottom:4px}
+.section-sub{font-size:12px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px;display:none}
+.empty-state-icon{font-size:40px;margin-bottom:12px}
+
+/* CARD */
+.product-card{background:var(--bg-card);border:.5px solid var(--border);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s}
+.product-card:hover{transform:translateY(-4px);border-color:var(--gold-dim)}
+.product-card.featured{border-color:var(--gold-dim)}
+.card-top-bar{height:3px;background:var(--border)}
+.product-card.featured .card-top-bar{background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-dim))}
+.card-gallery{height:170px;overflow:hidden;background:var(--bg-card2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.gallery-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px}
+.gallery-placeholder .gi{font-size:44px}
+.gallery-placeholder span{font-size:11px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
+.card-header{padding:16px 18px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.product-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.icon-blue{background:rgba(52,152,219,.12);border:.5px solid rgba(52,152,219,.2)}
+.icon-gold{background:rgba(200,168,75,.1);border:.5px solid rgba(200,168,75,.2)}
+.icon-purple{background:rgba(155,89,182,.1);border:.5px solid rgba(155,89,182,.2)}
+.icon-green{background:rgba(46,204,113,.1);border:.5px solid rgba(46,204,113,.2)}
+.icon-red{background:rgba(231,76,60,.1);border:.5px solid rgba(231,76,60,.2)}
+.card-tags{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.tag{font-size:10px;padding:3px 9px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-weight:500;white-space:nowrap}
+.tag-ea{background:rgba(52,152,219,.1);color:var(--blue);border:.5px solid rgba(52,152,219,.2)}
+.tag-ind{background:rgba(155,89,182,.1);color:#9b59b6;border:.5px solid rgba(155,89,182,.2)}
+.tag-tool{background:rgba(46,204,113,.1);color:var(--green);border:.5px solid rgba(46,204,113,.2)}
+.tag-mt4{background:rgba(200,168,75,.08);color:var(--gold-light);border:.5px solid var(--border-gold)}
+.tag-mt5{background:rgba(155,89,182,.1);color:#9b59b6;border:.5px solid rgba(155,89,182,.2)}
+.tag-best{background:rgba(200,168,75,.15);color:var(--gold);border:.5px solid var(--gold-dim)}
+.card-body{padding:12px 18px;flex:1}
+.stars{display:flex;gap:2px;margin-bottom:8px;align-items:center}
+.star{color:var(--gold);font-size:11px}.star.e{color:var(--border)}
+.reviews{font-size:11px;color:var(--text-muted);margin-right:6px}
+.product-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3}
+.product-desc{font-size:12px;color:var(--text-secondary);line-height:1.65;margin-bottom:10px}
+.features-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.features-list li{font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:7px}
+.fdot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;opacity:.7}
+.card-footer{padding:14px 18px 18px;border-top:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price-label{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.price-value{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:500;color:var(--gold)}
+.card-actions{display:flex;gap:8px;align-items:center}
+.btn-details{padding:8px 13px;border-radius:9px;border:.5px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center}
+.btn-details:hover{color:var(--text-primary);border-color:var(--gold-dim)}
+.btn-buy{padding:8px 16px;border-radius:9px;border:none;background:var(--gold);color:#080e14;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center}
+.btn-buy:hover{background:var(--gold-light)}
+
+/* RTL/LTR switch */
+[data-lang="en"]{direction:ltr;font-family:'Syne',sans-serif}
+[data-lang="en"] .card-body,[data-lang="en"] .product-desc,[data-lang="en"] .features-list{font-family:'Syne',sans-serif}
+
+@media(max-width:640px){
+  nav{padding:10px 14px}
+  .hero,.catalog-nav,.sub-tabs-wrap,.products-section{padding-left:14px;padding-right:14px}
+  .hero-stats{gap:18px}
+  .trust-bar{gap:14px;padding:14px}
+  .cat-tabs{gap:2px}
+  .cat-tab{padding:10px 14px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-img-wrap">
+      <!-- Replace with: <img src="logo.png" alt="BENTRADE"> -->
+      <span class="logo-placeholder">BT</span>
+    </div>
+    <div class="logo-text-wrap">
+      <div class="name">BENTRADE</div>
+      <div class="sub" data-ar="منصة التداول" data-en="Trading Platform">منصة التداول</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-secure">
+      <div class="shield-box">🔒</div>
+      <span data-ar="دفع آمن عبر PayPal" data-en="Secure PayPal Payments">دفع آمن عبر PayPal</span>
+    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+</nav>
+
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-icon t-g">✓</div><span data-ar="نتائج موثقة على حسابات حقيقية" data-en="Verified results on live accounts">نتائج موثقة على حسابات حقيقية</span></div>
+  <div class="trust-item"><div class="trust-icon t-o">🏅</div><span data-ar="+500 تاجر يثق بـ BENTRADE" data-en="+500 traders trust BENTRADE">+500 تاجر يثق بـ BENTRADE</span></div>
+  <div class="trust-item"><div class="trust-icon t-b">🔄</div><span data-ar="دعم فني مدى الحياة" data-en="Lifetime technical support">دعم فني مدى الحياة</span></div>
+  <div class="trust-item"><div class="trust-icon t-g">🛡️</div><span data-ar="ضمان استرداد 7 أيام" data-en="7-day money back guarantee">ضمان استرداد 7 أيام</span></div>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">◆ <span data-ar="أدوات تداول احترافية" data-en="Professional Trading Tools">أدوات تداول احترافية</span></div>
+  <h1 data-ar="تداول بذكاء مع<br><em>روبوتات BENTRADE</em>" data-en="Trade Smarter with<br><em>BENTRADE Tools</em>">تداول بذكاء مع<br><em>روبوتات BENTRADE</em></h1>
+  <p class="hero-desc" data-ar="منظومة متكاملة من الروبوتات والمؤشرات وأدوات التداول المصممة بدقة لأسواق الفوركس والذهب والعملات الرقمية." data-en="A complete suite of robots, indicators and trading tools precision-built for Forex, Gold and Crypto markets.">منظومة متكاملة من الروبوتات والمؤشرات وأدوات التداول المصممة بدقة لأسواق الفوركس والذهب والعملات الرقمية.</p>
+  <div class="hero-stats">
+    <div><span class="stat-num">+73%</span><span class="stat-lbl" data-ar="متوسط نسبة الفوز" data-en="Avg. Win Rate">متوسط نسبة الفوز</span></div>
+    <div class="hdivider"></div>
+    <div><span class="stat-num" id="totalCount">7</span><span class="stat-lbl" data-ar="منتج احترافي" data-en="Pro Products">منتج احترافي</span></div>
+    <div class="hdivider"></div>
+    <div><span class="stat-num">24/7</span><span class="stat-lbl" data-ar="تداول مستمر" data-en="Non-stop Trading">تداول مستمر</span></div>
+    <div class="hdivider"></div>
+    <div><span class="stat-num">&lt;4%</span><span class="stat-lbl" data-ar="أقصى سحب" data-en="Max Drawdown">أقصى سحب</span></div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="catalog-nav">
+  <div class="cat-tabs">
+    <button class="cat-tab active" data-cat="all" onclick="switchCat('all',this)">
+      <span class="cat-tab-icon">🏪</span>
+      <span data-ar="الكل" data-en="All">الكل</span>
+    </button>
+    <button class="cat-tab" data-cat="robots" onclick="switchCat('robots',this)">
+      <span class="cat-tab-icon">🤖</span>
+      <span data-ar="روبوتات التداول" data-en="Trading Robots">روبوتات التداول</span>
+    </button>
+    <button class="cat-tab" data-cat="indicators" onclick="switchCat('indicators',this)">
+      <span class="cat-tab-icon">📈</span>
+      <span data-ar="المؤشرات" data-en="Indicators">المؤشرات</span>
+    </button>
+    <button class="cat-tab" data-cat="tools" onclick="switchCat('tools',this)">
+      <span class="cat-tab-icon">🛠️</span>
+      <span data-ar="أدوات التداول" data-en="Trading Tools">أدوات التداول</span>
+    </button>
+  </div>
+</div>
+
+<!-- MT4 / MT5 SUB-TABS -->
+<div class="sub-tabs-wrap" id="subTabsWrap">
+  <div class="sub-tabs">
+    <button class="sub-tab active" data-plat="all" onclick="switchPlat('all',this)" data-ar="الكل" data-en="All">الكل</button>
+    <button class="sub-tab" data-plat="mt4" onclick="switchPlat('mt4',this)">MT4</button>
+    <button class="sub-tab" data-plat="mt5" onclick="switchPlat('mt5',this)">MT5</button>
+  </div>
+</div>
+
+<div class="products-section">
+  <div class="section-header">
+    <div class="section-title-big" id="sectionTitle" data-ar="جميع المنتجات" data-en="All Products">جميع المنتجات</div>
+    <div class="section-sub" id="sectionSub" data-ar="7 منتج متاح" data-en="7 products available">7 منتج متاح</div>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+
+    <!-- ROBOTS -->
+    <div class="product-card featured" data-type="robots" data-platform="mt4 mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">⚛️</div><span>images/zentra-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-blue">⚛️</div>
+        <div class="card-tags">
+          <span class="tag tag-best" data-ar="★ الأكثر مبيعاً" data-en="★ Best Seller">★ الأكثر مبيعاً</span>
+          <span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(128)</span></div>
+        <div class="product-name">Quantum ZENTRA EA©</div>
+        <div class="product-desc" data-ar="روبوت كمي متطور باستراتيجيات متعددة وإدارة مخاطر ذكية." data-en="Advanced quant robot with multi-strategy and smart risk management.">روبوت كمي متطور باستراتيجيات متعددة وإدارة مخاطر ذكية.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="تداول تلقائي 24/7" data-en="Automated trading 24/7">تداول تلقائي 24/7</span></li>
+          <li><span class="fdot"></span><span data-ar="إدارة مخاطر ديناميكية" data-en="Dynamic risk management">إدارة مخاطر ديناميكية</span></li>
+          <li><span class="fdot"></span><span data-ar="سحب أقصى أقل من 4.2%" data-en="Max drawdown under 4.2%">سحب أقصى أقل من 4.2%</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$199</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=zentra" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=Quantum+ZENTRA+EA&price=199&id=zentra" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt4 mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🛡️</div><span>images/golden-guard-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-gold">🛡️</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(94)</span></div>
+        <div class="product-name">GOLDEN Guard Pro EA©</div>
+        <div class="product-desc" data-ar="روبوت ذهبي احترافي مصمم خصيصاً لـ XAU/USD مع حماية رأس المال." data-en="Professional gold robot designed exclusively for XAU/USD with capital protection.">روبوت ذهبي احترافي مصمم خصيصاً لـ XAU/USD مع حماية رأس المال.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="متخصص 100% في الذهب" data-en="100% Gold specialist">متخصص 100% في الذهب</span></li>
+          <li><span class="fdot"></span><span data-ar="نظام حماية رأس المال" data-en="Capital protection system">نظام حماية رأس المال</span></li>
+          <li><span class="fdot"></span><span data-ar="نتائج موثقة Myfxbook" data-en="Verified on Myfxbook">نتائج موثقة Myfxbook</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$179</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=golden-guard" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=GOLDEN+Guard+Pro+EA&price=179&id=golden-guard" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🧠</div><span>images/golden-algo-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-purple">🧠</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(76)</span></div>
+        <div class="product-name">GOLDEN ALGO MT5©</div>
+        <div class="product-desc" data-ar="خوارزمية ذهبية ذكية حصرياً لـ MT5 بأداء عالي ونتائج مثبتة." data-en="Smart gold algorithm exclusively for MT5 with high performance and proven results.">خوارزمية ذهبية ذكية حصرياً لـ MT5 بأداء عالي ونتائج مثبتة.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="خوارزمية AI متقدمة" data-en="Advanced AI algorithm">خوارزمية AI متقدمة</span></li>
+          <li><span class="fdot"></span><span data-ar="حصري لمنصة MT5" data-en="Exclusive to MT5">حصري لمنصة MT5</span></li>
+          <li><span class="fdot"></span><span data-ar="نتائج موثقة" data-en="Verified results">نتائج موثقة</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$189</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=golden-algo" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=GOLDEN+ALGO+MT5&price=189&id=golden-algo" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt4 mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">⚡</div><span>images/gold-strike-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-gold">⚡</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star e">★</span><span class="reviews">(61)</span></div>
+        <div class="product-name">Gold Strike EA©</div>
+        <div class="product-desc" data-ar="روبوت الضربة الذهبية السريع يستهدف الفرص الكبيرة في XAU/USD." data-en="Fast gold strike robot targeting big opportunities in XAU/USD.">روبوت الضربة الذهبية السريع يستهدف الفرص الكبيرة في XAU/USD.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="تداول الاندفاعات القوية" data-en="Momentum trading">تداول الاندفاعات القوية</span></li>
+          <li><span class="fdot"></span><span data-ar="وقف خسارة ذكي" data-en="Smart stop loss">وقف خسارة ذكي</span></li>
+          <li><span class="fdot"></span><span data-ar="يعمل على M15 و H1" data-en="Works on M15 & H1">يعمل على M15 و H1</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$149</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=gold-strike" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=Gold+Strike+EA&price=149&id=gold-strike" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt4 mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">👑</div><span>images/prime-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-green">👑</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(89)</span></div>
+        <div class="product-name">Prime Trader EA©</div>
+        <div class="product-desc" data-ar="نظام تداول متكامل على أكثر من 10 أزواج عملات." data-en="Complete trading system covering 10+ currency pairs.">نظام تداول متكامل على أكثر من 10 أزواج عملات.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="يغطي 10+ أزواج" data-en="Covers 10+ pairs">يغطي 10+ أزواج</span></li>
+          <li><span class="fdot"></span><span data-ar="أداء مستقر دائماً" data-en="Consistently stable">أداء مستقر دائماً</span></li>
+          <li><span class="fdot"></span><span data-ar="لوحة تحكم متكاملة" data-en="Built-in dashboard">لوحة تحكم متكاملة</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$159</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=prime-trader" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=Prime+Trader+EA&price=159&id=prime-trader" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt4 mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">💱</div><span>images/forex-strike-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-blue">💱</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star e">★</span><span class="reviews">(53)</span></div>
+        <div class="product-name">FOREX Strike EA©</div>
+        <div class="product-desc" data-ar="روبوت فوركس على EUR/USD و GBP/USD مع فلتر أخبار." data-en="Forex robot on EUR/USD & GBP/USD with built-in news filter.">روبوت فوركس على EUR/USD و GBP/USD مع فلتر أخبار.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="متخصص EUR/USD و GBP/USD" data-en="EUR/USD & GBP/USD specialist">متخصص EUR/USD و GBP/USD</span></li>
+          <li><span class="fdot"></span><span data-ar="فلتر أخبار مدمج" data-en="Built-in news filter">فلتر أخبار مدمج</span></li>
+          <li><span class="fdot"></span><span data-ar="باك تست 10 سنوات" data-en="10-year backtest">باك تست 10 سنوات</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$139</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=forex-strike" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=FOREX+Strike+EA&price=139&id=forex-strike" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-type="robots" data-platform="mt5">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🚀</div><span>images/bitrocket-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-red">🚀</div>
+        <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(47)</span></div>
+        <div class="product-name">BitRocket EA MT5©</div>
+        <div class="product-desc" data-ar="روبوت العملات الرقمية على MT5 — BTC/USD و ETH/USD." data-en="Crypto robot on MT5 — BTC/USD & ETH/USD.">روبوت العملات الرقمية على MT5 — BTC/USD و ETH/USD.</div>
+        <ul class="features-list">
+          <li><span class="fdot"></span><span data-ar="متخصص BTC و ETH" data-en="BTC & ETH specialist">متخصص BTC و ETH</span></li>
+          <li><span class="fdot"></span><span data-ar="خوارزمية الاندفاعات" data-en="Momentum algorithm">خوارزمية الاندفاعات</span></li>
+          <li><span class="fdot"></span><span data-ar="نتائج موثقة 2024-2026" data-en="Verified results 2024-2026">نتائج موثقة 2024-2026</span></li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$169</span></div>
+        <div class="card-actions">
+          <a class="btn-details" href="product.html?id=bitrocket" data-ar="التفاصيل ↗" data-en="Details ↗">التفاصيل ↗</a>
+          <a class="btn-buy" href="checkout.html?product=BitRocket+EA+MT5&price=169&id=bitrocket" data-ar="شراء" data-en="Buy">شراء</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INDICATORS — add your indicator products here -->
+    <div class="product-card" data-type="indicators" data-platform="mt4 mt5" style="display:none">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">📊</div><span>images/indicator-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-purple">📊</div>
+        <div class="card-tags"><span class="tag tag-ind">Indicator</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(0)</span></div>
+        <div class="product-name" data-ar="مؤشر BENTRADE PRO" data-en="BENTRADE PRO Indicator">مؤشر BENTRADE PRO</div>
+        <div class="product-desc" data-ar="أضف وصف المؤشر هنا." data-en="Add indicator description here.">أضف وصف المؤشر هنا.</div>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$—</span></div>
+        <div class="card-actions">
+          <a class="btn-buy" href="#" data-ar="قريباً" data-en="Coming Soon">قريباً</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLS — add your tools here -->
+    <div class="product-card" data-type="tools" data-platform="mt4 mt5" style="display:none">
+      <div class="card-top-bar"></div>
+      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🛠️</div><span>images/tool-1.jpg</span></div></div>
+      <div class="card-header">
+        <div class="product-icon-wrap icon-green">🛠️</div>
+        <div class="card-tags"><span class="tag tag-tool">Tool</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
+      </div>
+      <div class="card-body">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="reviews">(0)</span></div>
+        <div class="product-name" data-ar="أداة BENTRADE" data-en="BENTRADE Tool">أداة BENTRADE</div>
+        <div class="product-desc" data-ar="أضف وصف الأداة هنا." data-en="Add tool description here.">أضف وصف الأداة هنا.</div>
+      </div>
+      <div class="card-footer">
+        <div><div class="price-label" data-ar="ترخيص دائم" data-en="Lifetime license">ترخيص دائم</div><span class="price-value">$—</span></div>
+        <div class="card-actions">
+          <a class="btn-buy" href="#" data-ar="قريباً" data-en="Coming Soon">قريباً</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="empty-state" id="emptyState">
+    <div class="empty-state-icon">📭</div>
+    <div id="emptyText" data-ar="لا توجد منتجات في هذا القسم بعد" data-en="No products in this section yet">لا توجد منتجات في هذا القسم بعد</div>
+  </div>
+</div>
+</div>
+
+<script>
+const _lang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  return m ? m[1] : 'ar';
+};
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  // fallback for file:// where cookies may also be restricted
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
+// Read from either storage
+const _readLang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  if (m) return m[1];
+  try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
+};
+let currentCat  = 'all';
+let currentPlat = 'all';
+let currentLang = _readLang();
+
+const LABELS = {
+  ar: {
+    all:        {title:'جميع المنتجات',       sub:'منتج متاح'},
+    robots:     {title:'روبوتات التداول',      sub:'روبوت متاح'},
+    indicators: {title:'المؤشرات',             sub:'مؤشر متاح'},
+    tools:      {title:'أدوات التداول',        sub:'أداة متاحة'},
+  },
+  en: {
+    all:        {title:'All Products',         sub:'product available'},
+    robots:     {title:'Trading Robots',       sub:'robot available'},
+    indicators: {title:'Indicators',           sub:'indicator available'},
+    tools:      {title:'Trading Tools',        sub:'tool available'},
+  }
+};
+
+function switchCat(cat, btn) {
+  currentCat  = cat;
+  currentPlat = 'all';
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Show sub-tabs only when a specific category is selected
+  const sw = document.getElementById('subTabsWrap');
+  sw.classList.toggle('show', cat !== 'all');
+  // Reset sub-tabs
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector('.sub-tab[data-plat="all"]').classList.add('active');
+  filterCards();
+}
+
+function switchPlat(plat, btn) {
+  currentPlat = plat;
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+
+function filterCards() {
+  const cards   = document.querySelectorAll('.product-card');
+  let visible   = 0;
+  cards.forEach(c => {
+    const typeOk = currentCat  === 'all' || c.dataset.type === currentCat;
+    const platOk = currentPlat === 'all' || (c.dataset.platform && c.dataset.platform.includes(currentPlat));
+    const show   = typeOk && platOk;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  // Update section header
+  const L = LABELS[currentLang][currentCat];
+  document.getElementById('sectionTitle').textContent = L.title;
+  document.getElementById('sectionSub').textContent   = visible + ' ' + L.sub;
+  // Empty state
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── Language toggle ── */
+function toggleLang() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  _setLang(currentLang);
+  const html  = document.documentElement;
+  html.setAttribute('lang',     currentLang);
+  html.setAttribute('dir',      currentLang === 'ar' ? 'rtl' : 'ltr');
+  html.setAttribute('data-lang',currentLang);
+  document.getElementById('langBtn').textContent = currentLang === 'ar' ? 'EN' : 'عر';
+
+  // Swap all data-ar / data-en text nodes
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    const val = el.getAttribute('data-' + currentLang);
+    if (!val) return;
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val;
+    else if (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'DIV' || el.tagName === 'P') {
+      // Only set if no child elements (pure text node)
+      if (el.children.length === 0) el.textContent = val;
+    }
+  });
+
+  // Swap h1 innerHTML
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.innerHTML = h1.getAttribute('data-' + currentLang);
+
+  // Re-apply filter labels
+  filterCards();
+}
+
+// Init
+if (_readLang() !== 'ar') toggleLang();
+filterCards();
+</script>
+</body>
+</html>

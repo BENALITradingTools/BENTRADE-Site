@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — BENTRADE</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
+  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
+  --border:#1a2e3e;--border-gold:#3a2e18;
+  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+  --green:#2ecc71;--blue:#3498db;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+nav{display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--gold)}
+.nav-left{display:flex;align-items:center;gap:10px}
+.back-link{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 12px;border-radius:8px;border:.5px solid var(--border);transition:all .2s}
+.back-link:hover{color:var(--text-primary);border-color:var(--gold-dim)}
+.lang-btn{padding:6px 14px;border-radius:20px;border:.5px solid var(--border-gold);background:var(--gold-glow);color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.lang-btn:hover{background:rgba(200,168,75,.2)}
+
+.wrap{max-width:980px;margin:0 auto;padding:32px 24px 80px;position:relative;z-index:1}
+.breadcrumb{font-size:11px;color:var(--text-muted);margin-bottom:24px;font-family:'IBM Plex Mono',monospace}
+.breadcrumb a{color:var(--text-secondary);text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
+
+.layout{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start}
+.main-img{width:100%;height:260px;object-fit:cover;border-radius:14px;border:.5px solid var(--border);display:none}
+.main-placeholder{width:100%;height:260px;background:var(--bg-card2);border:.5px solid var(--border-gold);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.mp-icon{font-size:60px}
+.mp-text{font-size:13px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
+.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.thumb{width:78px;height:58px;border-radius:8px;border:1.5px solid var(--border);object-fit:cover;cursor:pointer;transition:border-color .2s}
+.thumb:hover,.thumb.active{border-color:var(--gold)}
+.thumb-placeholder{width:78px;height:58px;background:var(--bg-card2);border:1.5px dashed var(--border-gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-muted)}
+
+.info-panel{position:sticky;top:76px}
+.panel-card{background:var(--bg-card);border:.5px solid var(--border);border-radius:18px;padding:22px}
+.tag-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:10px;padding:3px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-weight:500}
+.tag-ea{background:rgba(52,152,219,.1);color:var(--blue);border:.5px solid rgba(52,152,219,.2)}
+.tag-cat{background:var(--gold-glow);color:var(--gold-light);border:.5px solid var(--border-gold)}
+.product-title{font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,24px);font-weight:800;line-height:1.2;margin-bottom:12px}
+.rating-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.star{color:var(--gold);font-size:15px}.star.e{color:var(--border)}
+.reviews{font-size:12px;color:var(--text-muted)}
+.price-big{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:500;color:var(--gold);margin-bottom:4px}
+.price-note{font-size:12px;color:var(--text-muted);margin-bottom:20px}
+.btn-buy-big{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:12px;border:none;background:var(--gold);color:#080e14;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;text-decoration:none;transition:all .2s;margin-bottom:10px}
+.btn-buy-big:hover{background:var(--gold-light)}
+.btn-paypal-big{display:flex;align-items:center;justify-content:center;width:100%;padding:13px;border-radius:12px;border:none;background:#0070ba;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:background .2s;margin-bottom:14px}
+.btn-paypal-big:hover{background:#005ea6}
+.secure-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.sbadge{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+.divider{height:.5px;background:var(--border);margin:16px 0}
+.guarantee{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(46,204,113,.06);border:.5px solid rgba(46,204,113,.2);border-radius:10px;font-size:12px;color:var(--green)}
+
+.section-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:15px;background:var(--gold);border-radius:2px}
+.desc-text{font-size:14px;color:var(--text-secondary);line-height:1.8}
+.feat-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border);font-size:13px;color:var(--text-secondary)}
+.feat-item:last-child{border-bottom:none}
+.feat-check{width:22px;height:22px;background:rgba(200,168,75,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-box{background:var(--bg-card2);border:.5px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.stat-box .num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--gold)}
+.stat-box .lbl{font-size:11px;color:var(--text-muted);margin-top:4px}
+
+[data-lang="en"]{direction:ltr}
+
+@media(max-width:700px){
+  nav{padding:10px 14px}
+  .layout{grid-template-columns:1fr}
+  .info-panel{position:static}
+  .wrap{padding:20px 14px 60px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <a class="back-link" href="index.html" id="backLink">← <span id="backTxt">العودة للمتجر</span></a>
+  </div>
+  <div class="logo">BENTRADE</div>
+  <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+</nav>
+
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="index.html" id="bcStore">المتجر</a> / <a href="index.html" id="bcCat">أدوات التداول</a> / <span id="bcName">—</span>
+  </div>
+
+  <div class="layout">
+    <div>
+      <img id="mainImg" class="main-img" src="" alt="">
+      <div id="mainPlaceholder" class="main-placeholder">
+        <div class="mp-icon" id="pIcon">⚛️</div>
+        <div class="mp-text" id="mpText">Add product images in images/ folder</div>
+      </div>
+      <div class="thumbs" id="thumbsRow"></div>
+
+      <div class="section-title" id="lblDesc">وصف المنتج</div>
+      <p class="desc-text" id="pDesc">—</p>
+
+      <div class="section-title" id="lblFeatures">المميزات</div>
+      <div id="pFeats"></div>
+
+      <div class="section-title" id="lblStats">الأداء والإحصائيات</div>
+      <div class="stats-grid" id="pStats"></div>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-card">
+        <div class="tag-row" id="pTags"></div>
+        <div class="product-title" id="pName">—</div>
+        <div class="rating-row" id="pStars"></div>
+        <div class="price-big" id="pPrice">—</div>
+        <div class="price-note" id="priceLbl">ترخيص دائم — دفع مرة واحدة فقط</div>
+        <a id="btnBuy" class="btn-buy-big" href="#">🛒 <span id="buyTxt">اشتري الآن</span></a>
+        <a id="btnPaypal" class="btn-paypal-big" href="#" target="_blank" id="ppTxt">الدفع عبر PayPal</a>
+        <div class="secure-badges">
+          <span class="sbadge">🔒 SSL</span>
+          <span class="sbadge" id="badge1">✓ PayPal مضمون</span>
+          <span class="sbadge" id="badge2">📦 تسليم فوري</span>
+        </div>
+        <div class="divider"></div>
+        <div class="guarantee" id="guaranteeTxt">🛡️ ضمان استرداد كامل خلال 7 أيام</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = {
+  'zentra':{
+    name:'Quantum ZENTRA EA©', price:199, icon:'⚛️', stars:5, reviews:128,
+    cat:    {ar:'فوركس + ذهب',        en:'Forex + Gold'},
+    platform:{ar:'MT4 / MT5',          en:'MT4 / MT5'},
+    desc:   {ar:'روبوت تداول كمي متطور يعمل 24/7 باستراتيجيات متعددة وإدارة مخاطر ذكية. الأمثل للمبتدئين والمحترفين على حد سواء.',
+             en:'Advanced quantitative trading robot running 24/7 with multi-strategy logic and smart risk management. Ideal for both beginners and professionals.'},
+    features:{
+      ar:['تداول تلقائي 24/7 على الفوركس والذهب','إدارة مخاطر ديناميكية متطورة','سحب أقصى أقل من 4.2%','إعداد سهل خلال 5 دقائق','دعم فني مدى الحياة'],
+      en:['Automated 24/7 trading on Forex & Gold','Advanced dynamic risk management','Max drawdown under 4.2%','Easy 5-minute setup','Lifetime technical support']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'73%'},{l:'أقصى سحب',v:'4.2%'},{l:'الصفقات/شهر',v:'~40'},{l:'المخاطرة/صفقة',v:'1-2%'}],
+      en:[{l:'Win Rate',v:'73%'},{l:'Max DD',v:'4.2%'},{l:'Trades/Month',v:'~40'},{l:'Risk/Trade',v:'1-2%'}]
+    },
+    imgs:[]
+  },
+  'golden-guard':{
+    name:'GOLDEN Guard Pro EA©', price:179, icon:'🛡️', stars:5, reviews:94,
+    cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
+    desc:{ar:'روبوت ذهبي احترافي مصمم خصيصاً للتداول على XAU/USD مع حماية متقدمة لرأس المال وتنفيذ سريع.',
+          en:'Professional gold robot exclusively designed for XAU/USD trading with advanced capital protection and fast execution.'},
+    features:{
+      ar:['متخصص 100% في الذهب XAU/USD','نظام حماية رأس المال المدمج','نتائج موثقة على Myfxbook','فلتر أخبار مدمج'],
+      en:['100% XAU/USD specialist','Built-in capital protection system','Verified results on Myfxbook','Built-in news filter']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'71%'},{l:'أقصى سحب',v:'3.8%'},{l:'الصفقات/شهر',v:'~25'},{l:'المخاطرة/صفقة',v:'1%'}],
+      en:[{l:'Win Rate',v:'71%'},{l:'Max DD',v:'3.8%'},{l:'Trades/Month',v:'~25'},{l:'Risk/Trade',v:'1%'}]
+    },
+    imgs:[]
+  },
+  'golden-algo':{
+    name:'GOLDEN ALGO MT5©', price:189, icon:'🧠', stars:5, reviews:76,
+    cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT5 فقط',en:'MT5 Only'},
+    desc:{ar:'خوارزمية ذهبية ذكية مصممة حصرياً لـ MT5 بأداء عالي ونتائج مثبتة على حسابات حقيقية.',
+          en:'Smart gold algorithm designed exclusively for MT5 with high performance and proven results on live accounts.'},
+    features:{
+      ar:['خوارزمية AI متقدمة للذهب','حصري لمنصة MT5','نتائج موثقة Myfxbook','يعمل على H1 و H4','تحديثات مستمرة'],
+      en:['Advanced AI gold algorithm','Exclusive to MT5 platform','Myfxbook verified results','Works on H1 & H4','Continuous updates']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'74%'},{l:'أقصى سحب',v:'3.5%'},{l:'الصفقات/شهر',v:'~20'},{l:'المخاطرة/صفقة',v:'1%'}],
+      en:[{l:'Win Rate',v:'74%'},{l:'Max DD',v:'3.5%'},{l:'Trades/Month',v:'~20'},{l:'Risk/Trade',v:'1%'}]
+    },
+    imgs:[]
+  },
+  'gold-strike':{
+    name:'Gold Strike EA©', price:149, icon:'⚡', stars:4, reviews:61,
+    cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
+    desc:{ar:'روبوت الضربة الذهبية السريع — يستهدف الاندفاعات القوية في XAU/USD بدقة عالية على M15 و H1.',
+          en:'Fast gold strike robot — targets strong momentum moves in XAU/USD with precision on M15 & H1.'},
+    features:{
+      ar:['تداول الاندفاعات القوية','وقف خسارة ذكي ديناميكي','يعمل على M15 و H1','مناسب للحسابات الصغيرة'],
+      en:['Momentum breakout trading','Dynamic smart stop loss','Works on M15 & H1','Suitable for small accounts']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'68%'},{l:'أقصى سحب',v:'5.1%'},{l:'الصفقات/شهر',v:'~55'},{l:'المخاطرة/صفقة',v:'1.5%'}],
+      en:[{l:'Win Rate',v:'68%'},{l:'Max DD',v:'5.1%'},{l:'Trades/Month',v:'~55'},{l:'Risk/Trade',v:'1.5%'}]
+    },
+    imgs:[]
+  },
+  'prime-trader':{
+    name:'Prime Trader EA©', price:159, icon:'👑', stars:5, reviews:89,
+    cat:{ar:'فوركس',en:'Forex'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
+    desc:{ar:'نظام تداول احترافي متكامل يعمل على أكثر من 10 أزواج عملات مع أداء مستقر في جميع ظروف السوق.',
+          en:'Complete professional trading system covering 10+ currency pairs with stable performance in all market conditions.'},
+    features:{
+      ar:['يغطي 10+ أزواج عملات','أداء مستقر في جميع الظروف','لوحة تحكم متكاملة','دعم VPS'],
+      en:['Covers 10+ currency pairs','Stable in all market conditions','Built-in control dashboard','VPS support']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'72%'},{l:'أقصى سحب',v:'4.0%'},{l:'الصفقات/شهر',v:'~35'},{l:'المخاطرة/صفقة',v:'1%'}],
+      en:[{l:'Win Rate',v:'72%'},{l:'Max DD',v:'4.0%'},{l:'Trades/Month',v:'~35'},{l:'Risk/Trade',v:'1%'}]
+    },
+    imgs:[]
+  },
+  'forex-strike':{
+    name:'FOREX Strike EA©', price:139, icon:'💱', stars:4, reviews:53,
+    cat:{ar:'فوركس',en:'Forex'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
+    desc:{ar:'روبوت فوركس قوي متخصص في EUR/USD و GBP/USD مع فلتر أخبار مدمج وباك تست موثق 10 سنوات.',
+          en:'Powerful Forex robot specializing in EUR/USD & GBP/USD with built-in news filter and 10-year verified backtest.'},
+    features:{
+      ar:['متخصص EUR/USD و GBP/USD','فلتر أخبار مدمج','باك تست 10 سنوات','إدارة مخاطر تلقائية'],
+      en:['EUR/USD & GBP/USD specialist','Built-in news filter','10-year backtest','Automatic risk management']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'69%'},{l:'أقصى سحب',v:'4.5%'},{l:'الصفقات/شهر',v:'~30'},{l:'المخاطرة/صفقة',v:'1%'}],
+      en:[{l:'Win Rate',v:'69%'},{l:'Max DD',v:'4.5%'},{l:'Trades/Month',v:'~30'},{l:'Risk/Trade',v:'1%'}]
+    },
+    imgs:[]
+  },
+  'bitrocket':{
+    name:'BitRocket EA MT5©', price:169, icon:'🚀', stars:5, reviews:47,
+    cat:{ar:'كريبتو',en:'Crypto'}, platform:{ar:'MT5 فقط',en:'MT5 Only'},
+    desc:{ar:'روبوت تداول العملات الرقمية على MT5 مع تنفيذ فائق السرعة على BTC/USD و ETH/USD ونتائج موثقة.',
+          en:'Crypto trading robot on MT5 with ultra-fast execution on BTC/USD & ETH/USD and verified results 2024-2026.'},
+    features:{
+      ar:['متخصص BTC و ETH على MT5','خوارزمية التقاط الاندفاعات','نتائج موثقة 2024-2026','حماية ضد الفلاتة'],
+      en:['BTC & ETH specialist on MT5','Momentum capture algorithm','Verified results 2024-2026','Slippage protection']
+    },
+    stats:{
+      ar:[{l:'نسبة الفوز',v:'70%'},{l:'أقصى سحب',v:'5.5%'},{l:'الصفقات/شهر',v:'~45'},{l:'المخاطرة/صفقة',v:'1.5%'}],
+      en:[{l:'Win Rate',v:'70%'},{l:'Max DD',v:'5.5%'},{l:'Trades/Month',v:'~45'},{l:'Risk/Trade',v:'1.5%'}]
+    },
+    imgs:[]
+  }
+};
+
+const PAYPAL_ME = 'YOUR_PAYPAL_ME_USERNAME';
+
+const id = new URLSearchParams(window.location.search).get('id') || 'zentra';
+const p  = PRODUCTS[id];
+if (!p) { document.body.innerHTML = '<p style="padding:40px;color:#c8a84b">Product not found</p>'; }
+
+const _lang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  return m ? m[1] : 'ar';
+};
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  // fallback for file:// where cookies may also be restricted
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
+// Read from either storage
+const _readLang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  if (m) return m[1];
+  try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
+};
+let lang = _readLang();
+// Apply direction immediately to avoid flash
+(function(){
+  const l = lang;
+  document.documentElement.setAttribute('lang', l);
+  document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
+  document.documentElement.setAttribute('data-lang', l);
+})();
+
+function render() {
+  const L = lang;
+  const html = document.documentElement;
+  html.setAttribute('lang', L);
+  html.setAttribute('dir',  L === 'ar' ? 'rtl' : 'ltr');
+  html.setAttribute('data-lang', L);
+  document.getElementById('langBtn').textContent = L === 'ar' ? 'EN' : 'عر';
+
+  // Nav
+  document.getElementById('backTxt').textContent  = L==='ar' ? 'العودة للمتجر' : 'Back to Store';
+  document.getElementById('bcStore').textContent  = L==='ar' ? 'المتجر'        : 'Store';
+  document.getElementById('bcCat').textContent    = L==='ar' ? 'أدوات التداول' : 'Trading Tools';
+
+  // Section labels
+  document.getElementById('lblDesc').childNodes[document.getElementById('lblDesc').childNodes.length-1].textContent
+    = ' ' + (L==='ar' ? 'وصف المنتج' : 'Product Description');
+  document.getElementById('lblFeatures').childNodes[document.getElementById('lblFeatures').childNodes.length-1].textContent
+    = ' ' + (L==='ar' ? 'المميزات' : 'Features');
+  document.getElementById('lblStats').childNodes[document.getElementById('lblStats').childNodes.length-1].textContent
+    = ' ' + (L==='ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
+
+  // Product data
+  document.title = p.name + ' — BENTRADE';
+  document.getElementById('bcName').textContent   = p.name;
+  document.getElementById('pName').textContent    = p.name;
+  document.getElementById('pDesc').textContent    = p.desc[L];
+  document.getElementById('pPrice').textContent   = '$' + p.price;
+  document.getElementById('pIcon').textContent    = p.icon;
+  document.getElementById('mpText').textContent   = L==='ar' ? 'أضف صور المنتج في مجلد images/' : 'Add product images to images/ folder';
+  document.getElementById('priceLbl').textContent = L==='ar' ? 'ترخيص دائم — دفع مرة واحدة فقط' : 'Lifetime license — one-time payment';
+  document.getElementById('buyTxt').textContent   = L==='ar' ? 'اشتري الآن' : 'Buy Now';
+  document.getElementById('btnPaypal').textContent= L==='ar' ? 'الدفع عبر PayPal' : 'Pay with PayPal';
+  document.getElementById('badge1').textContent   = L==='ar' ? '✓ PayPal مضمون' : '✓ PayPal Secured';
+  document.getElementById('badge2').textContent   = L==='ar' ? '📦 تسليم فوري'   : '📦 Instant Delivery';
+  document.getElementById('guaranteeTxt').textContent = L==='ar'
+    ? '🛡️ ضمان استرداد كامل خلال 7 أيام'
+    : '🛡️ Full refund guarantee within 7 days';
+
+  // Buttons
+  document.getElementById('btnBuy').href    = 'checkout.html?product=' + encodeURIComponent(p.name) + '&price=' + p.price + '&id=' + id + '&lang=' + L;
+  document.getElementById('btnPaypal').href = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + p.price + 'USD';
+
+  // Stars
+  document.getElementById('pStars').innerHTML =
+    Array.from({length:5},(_,i)=>`<span class="star${i>=p.stars?' e':''}">★</span>`).join('') +
+    `<span class="reviews" style="font-size:12px;color:var(--text-muted);margin-right:8px">(${p.reviews} ${L==='ar'?'تقييم':'reviews'})</span>`;
+
+  // Tags
+  document.getElementById('pTags').innerHTML =
+    `<span class="tag tag-ea">Expert Advisor</span>
+     <span class="tag tag-cat">${p.cat[L]}</span>
+     <span class="tag tag-cat">${p.platform[L]}</span>`;
+
+  // Features
+  document.getElementById('pFeats').innerHTML = p.features[L].map(f=>
+    `<div class="feat-item"><div class="feat-check">✓</div>${f}</div>`).join('');
+
+  // Stats
+  document.getElementById('pStats').innerHTML = p.stats[L].map(s=>
+    `<div class="stat-box"><div class="num">${s.v}</div><div class="lbl">${s.l}</div></div>`).join('');
+}
+
+function toggleLang() {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  _setLang(lang);
+  render();
+}
+
+// Gallery
+function buildGallery() {
+  if (p.imgs && p.imgs.length > 0) {
+    document.getElementById('mainPlaceholder').style.display = 'none';
+    const mi = document.getElementById('mainImg');
+    mi.src = p.imgs[0]; mi.style.display = 'block';
+    const tr = document.getElementById('thumbsRow');
+    p.imgs.forEach((src,i)=>{
+      const t = document.createElement('img');
+      t.src = src; t.className = 'thumb'+(i===0?' active':'');
+      t.onclick = ()=>{ mi.src=src; document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active')); t.classList.add('active'); };
+      tr.appendChild(t);
+    });
+  } else {
+    const tr = document.getElementById('thumbsRow');
+    for(let i=0;i<4;i++){
+      const d=document.createElement('div'); d.className='thumb-placeholder'; d.innerHTML='📷'; tr.appendChild(d);
+    }
+  }
+}
+
+render();
+buildGallery();
+</script>
+</body>
+</html>

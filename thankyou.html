@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تم الدفع بنجاح — BENTRADE</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
+  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
+  --border:#1a2e3e;--border-gold:#3a2e18;
+  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+  --green:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+
+nav{display:flex;align-items:center;justify-content:center;padding:14px 32px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--gold)}
+
+.page{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1}
+
+.card{background:var(--bg-card);border:.5px solid var(--border);border-radius:24px;padding:48px 36px;max-width:540px;width:100%;text-align:center}
+
+.success-ring{width:88px;height:88px;border-radius:50%;background:rgba(46,204,113,.1);border:2px solid rgba(46,204,113,.35);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:popIn .4s ease}
+@keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.check{font-size:40px}
+
+.title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--green);margin-bottom:10px}
+.subtitle{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:28px}
+
+.order-box{background:var(--bg-card2);border:.5px solid var(--border-gold);border-radius:14px;padding:18px 20px;margin-bottom:28px;text-align:right}
+.order-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin-bottom:8px}
+.order-row:last-child{margin-bottom:0;padding-top:10px;border-top:.5px solid var(--border);font-weight:700;font-size:15px}
+.order-row .lbl{color:var(--text-secondary)}
+.order-row .val{font-family:'IBM Plex Mono',monospace;color:var(--text-primary)}
+.order-row.total .val{color:var(--gold)}
+
+/* Download button */
+.download-section{margin-bottom:28px}
+.download-title{font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-download{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border-radius:13px;border:none;background:var(--gold);color:#080e14;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;margin-bottom:10px}
+.btn-download:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-download .dl-icon{font-size:20px}
+
+.btn-back{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:13px;border:.5px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-back:hover{color:var(--text-primary);border-color:var(--gold-dim)}
+
+.steps{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:right}
+.step{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg-card2);border:.5px solid var(--border);border-radius:10px}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--gold-glow);border:.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;font-family:'IBM Plex Mono',monospace}
+.step-text{font-size:13px;color:var(--text-secondary);line-height:1.55;padding-top:2px}
+.step-text strong{color:var(--text-primary)}
+
+.support-note{font-size:12px;color:var(--text-muted);margin-top:20px}
+.support-note a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav><div class="logo">BENTRADE</div></nav>
+
+<div class="page">
+  <div class="card">
+
+    <div class="success-ring"><span class="check">✓</span></div>
+    <div class="title" data-ar="تم الدفع بنجاح!" data-en="Payment Successful!">تم الدفع بنجاح!</div>
+    <p class="subtitle" data-ar="شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً." data-en="Thank you for trusting BENTRADE.<br>Follow the steps below to get your product instantly.">شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً.</p>
+
+    <div class="order-box">
+      <div class="order-row"><span class="lbl" data-ar="المنتج" data-en="Product">المنتج</span><span class="val" id="oProduct">—</span></div>
+      <div class="order-row"><span class="lbl" data-ar="رقم المعاملة" data-en="Transaction ID">رقم المعاملة</span><span class="val" id="oTx" style="font-size:11px;color:var(--text-muted)">—</span></div>
+      <div class="order-row total"><span class="lbl" data-ar="تم الدفع" data-en="Amount Paid">تم الدفع</span><span class="val" id="oPrice">—</span></div>
+    </div>
+
+    <div class="download-section">
+      <div class="download-title" data-ar="📦 تحميل المنتج" data-en="📦 Download Product">📦 تحميل المنتج</div>
+      <!--
+      ================================================================
+      STEP 3: Replace the href below with your real Google Drive link
+      for each product. Use product ID to serve the right file.
+      Example: href="https://drive.google.com/uc?export=download&id=FILE_ID"
+      ================================================================
+      -->
+      <a id="downloadBtn" class="btn-download" href="#" target="_blank" data-ar="⬇️ تحميل الملف الآن" data-en="⬇️ Download File Now">⬇️ تحميل الملف الآن</a>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>حمّل الملف</strong> — اضغط زر التحميل أعلاه للحصول على ملف الـ EA</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>افتح MetaTrader</strong> — اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>ضع الملف</strong> في مجلد Experts ثم أعد تشغيل MetaTrader</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>أرفق الروبوت</strong> بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً</div>
+      </div>
+    </div>
+
+    <a class="btn-back" href="index.html" data-ar="← العودة للمتجر" data-en="← Back to Store">← العودة للمتجر</a>
+
+    <p class="support-note">
+      هل تحتاج مساعدة في التثبيت؟<br>
+      تواصل معنا: <a href="mailto:support@bentrade.com">support@bentrade.com</a>
+    </p>
+
+  </div>
+</div>
+
+<script>
+// ================================================================
+// Download links per product — STEP 3: Replace # with real links
+// Get links from Google Drive: right-click → Share → Copy link
+// Then convert to direct download:
+// https://drive.google.com/uc?export=download&id=YOUR_FILE_ID
+// ================================================================
+const DOWNLOAD_LINKS = {
+  'zentra':        'https://drive.google.com/file/d/YOUR_ZENTRA_FILE_ID/view',
+  'golden-guard':  'https://drive.google.com/file/d/YOUR_GOLDEN_GUARD_FILE_ID/view',
+  'golden-algo':   'https://drive.google.com/file/d/YOUR_GOLDEN_ALGO_FILE_ID/view',
+  'gold-strike':   'https://drive.google.com/file/d/YOUR_GOLD_STRIKE_FILE_ID/view',
+  'prime-trader':  'https://drive.google.com/file/d/YOUR_PRIME_TRADER_FILE_ID/view',
+  'forex-strike':  'https://drive.google.com/file/d/YOUR_FOREX_STRIKE_FILE_ID/view',
+  'bitrocket':     'https://drive.google.com/file/d/YOUR_BITROCKET_FILE_ID/view',
+};
+
+const PRICES = {
+  'zentra':'$199','golden-guard':'$179','golden-algo':'$189',
+  'gold-strike':'$149','prime-trader':'$159','forex-strike':'$139','bitrocket':'$169'
+};
+
+const TY={
+  ar:{title:'تم الدفع بنجاح!',
+      sub:'شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً.',
+      dlTitle:'📦 تحميل المنتج',dlBtn:'⬇️ تحميل الملف الآن',
+      s1:'المنتج',s2:'رقم المعاملة',s3:'تم الدفع',
+      st1:'حمّل الملف',sd1:'اضغط زر التحميل أعلاه للحصول على ملف الـ EA',
+      st2:'افتح MetaTrader',sd2:'اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts',
+      st3:'ضع الملف',sd3:'في مجلد Experts ثم أعد تشغيل MetaTrader',
+      st4:'أرفق الروبوت',sd4:'بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً',
+      back:'← العودة للمتجر',support:'هل تحتاج مساعدة في التثبيت؟'},
+  en:{title:'Payment Successful!',
+      sub:'Thank you for trusting BENTRADE.<br>Follow the steps below to get your product instantly.',
+      dlTitle:'📦 Download Product',dlBtn:'⬇️ Download File Now',
+      s1:'Product',s2:'Transaction ID',s3:'Amount Paid',
+      st1:'Download the file',sd1:'Click the download button above to get your EA file',
+      st2:'Open MetaTrader',sd2:'Go to File → Open Data Folder → MQL4 or MQL5 → Experts',
+      st3:'Place the file',sd3:'In the Experts folder then restart MetaTrader',
+      st4:'Attach the robot',sd4:'To your chart and click OK — automated trading will start',
+      back:'← Back to Store',support:'Need help with installation?'}
+};
+const _lang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  return m ? m[1] : 'ar';
+};
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
+const _readLang = () => {
+  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
+  if (m) return m[1];
+  try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
+};
+let langTY = _readLang();
+// Apply direction immediately — no flash
+(function(){
+  const l = langTY;
+  document.documentElement.setAttribute('lang', l);
+  document.documentElement.setAttribute('dir', l==='en'?'ltr':'rtl');
+  document.documentElement.setAttribute('data-lang', l);
+})();
+function applyLangTY() {
+  const l = langTY;
+  document.documentElement.setAttribute('lang', l);
+  document.documentElement.setAttribute('dir', l==='en'?'ltr':'rtl');
+  document.documentElement.setAttribute('data-lang', l);
+  _setLang(l);
+  document.getElementById('langBtn').textContent = l==='ar'?'EN':'عر';
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    const val = el.getAttribute('data-'+l);
+    if (!val) return;
+    if (el.children.length === 0) el.textContent = val;
+    else el.innerHTML = val;
+  });
+}
+function toggleLang(){
+  langTY = langTY==='ar'?'en':'ar';
+  applyLangTY();
+}
+applyLangTY();
+const p  = new URLSearchParams(window.location.search);
+const id = p.get('id')      || 'zentra';
+const tx = p.get('tx')      || '—';
+const nm = p.get('product') || 'BENTRADE EA';
+
+document.getElementById('oProduct').textContent = decodeURIComponent(nm);
+document.getElementById('oTx').textContent      = tx;
+document.getElementById('oPrice').textContent   = PRICES[id] || '—';
+document.getElementById('downloadBtn').href     = DOWNLOAD_LINKS[id] || '#';
+</script>
+</body>
+</html>
