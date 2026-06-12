@@ -217,6 +217,17 @@ function toggleLang() {
 }
 
 // ── Product from URL ──────────────────────────────────────
+const PAYPAL_LINKS = {
+  'zentra': 'https://www.paypal.com/ncp/payment/XXXX1',
+  'golden-guard': 'https://www.paypal.com/ncp/payment/XXXX2',
+  'golden-algo': 'https://www.paypal.com/ncp/payment/XXXX3',
+  'gold-strike': 'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8',
+  'prime-trader': 'https://www.paypal.com/ncp/payment/XXXX5',
+  'forex-strike': 'https://www.paypal.com/ncp/payment/XXXX6',
+  'bitrocket': 'https://www.paypal.com/ncp/payment/XXXX7'
+};
+  
+// ── Product from URL ──────────────────────────────────────
 const PAYPAL_ME = 'YOUR_PAYPAL_ME_USERNAME'; // ← replace this
 
 const icons = {'zentra':'⚛️','golden-guard':'🛡️','golden-algo':'🧠','gold-strike':'⚡','prime-trader':'👑','forex-strike':'💱','bitrocket':'🚀'};
@@ -237,9 +248,15 @@ document.getElementById('sumIcon').textContent  = icons[productId] || '📦';
 //document.getElementById('paypal-debit').href = paypalURL;
 //document.getElementById('card-link').href    = paypalURL;
 
-document.getElementById('paypal-link').href = p.paypal;
-document.getElementById('paypal-debit').href = p.paypal;
-document.getElementById('card-link').href = p.paypal;
+const paypalURL = PAYPAL_LINKS[productId];
+
+if (!paypalURL) {
+  console.error('No PayPal link for product:', productId);
+}
+
+document.getElementById('paypal-link').href  = paypalURL;
+document.getElementById('paypal-debit').href = paypalURL;
+document.getElementById('card-link').href    = paypalURL;
   
 // ── Payment method toggle ─────────────────────────────────
 function switchMethod(m) {
