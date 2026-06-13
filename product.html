@@ -37,10 +37,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
   border:.5px solid var(--border);
   overflow:hidden;
   background:var(--bg-card2);
+  margin-bottom:0;      /* thumbs row sits right below via .thumbs margin */
 }
 .main-img-wrap img{
   width:100%;
-  height:auto;          /* natural aspect ratio — 1:1 stays 1:1, 4:3 stays 4:3 */
+  height:auto;          /* natural aspect ratio — 960x185 banner stays 960x185 ratio */
   display:block;
 }
 .main-placeholder{
@@ -59,7 +60,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .mp-text{font-size:13px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
 
 /* Thumbnails: fixed width, height auto = same ratio as source image */
-.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:flex-start}
+.thumbs{display:flex;gap:10px;margin-top:12px;margin-bottom:28px;flex-wrap:wrap;align-items:flex-start}
 .thumb{
   width:80px;
   height:auto;          /* preserves natural aspect ratio of each thumbnail */
@@ -140,19 +141,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
     <a href="index.html" id="bcStore">المتجر</a> / <a href="index.html" id="bcCat">أدوات التداول</a> / <span id="bcName">—</span>
   </div>
 
+
+  <!-- Main image & thumbs span full page width ABOVE the two-column layout -->
+  <!-- A 960x185 banner renders at full ~930px width instead of ~560px -->
+  <div id="mainImgWrap" class="main-img-wrap" style="display:none">
+    <img id="mainImg" src="" alt="">
+  </div>
+  <div id="mainPlaceholder" class="main-placeholder">
+    <div class="mp-icon" id="pIcon">⛛️</div>
+    <div class="mp-text" id="mpText">Add product images in images/ folder</div>
+  </div>
+  <div class="thumbs" id="thumbsRow"></div>
+
   <div class="layout">
     <div>
-      <!-- Main image: replaced by JS -->
-      <div id="mainImgWrap" class="main-img-wrap" style="display:none">
-        <img id="mainImg" src="" alt="">
-      </div>
-      <div id="mainPlaceholder" class="main-placeholder">
-        <div class="mp-icon" id="pIcon">⚛️</div>
-        <div class="mp-text" id="mpText">Add product images in images/ folder</div>
-      </div>
-
-      <div class="thumbs" id="thumbsRow"></div>
-
       <div class="section-title" id="lblDesc">وصف المنتج</div>
       <p class="desc-text" id="pDesc">—</p>
       <div class="section-title" id="lblFeatures">المميزات</div>
