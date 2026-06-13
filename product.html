@@ -32,25 +32,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 
 /* FIX: 1:1 square main image */
 .main-img-wrap{
-  position:relative;
   width:100%;
-  aspect-ratio:1/1;
   border-radius:14px;
   border:.5px solid var(--border);
   overflow:hidden;
   background:var(--bg-card2);
 }
 .main-img-wrap img{
-  position:absolute;
-  inset:0;
   width:100%;
-  height:100%;
-  object-fit:cover;
+  height:auto;          /* natural aspect ratio — 1:1 stays 1:1, 4:3 stays 4:3 */
   display:block;
 }
 .main-placeholder{
   width:100%;
-  aspect-ratio:1/1;
+  min-height:260px;     /* reasonable fallback height when no image */
   background:var(--bg-card2);
   border:.5px solid var(--border-gold);
   border-radius:14px;
@@ -63,14 +58,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .mp-icon{font-size:60px}
 .mp-text{font-size:13px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
 
-/* FIX: 1:1 square thumbnails */
-.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+/* Thumbnails: fixed width, height auto = same ratio as source image */
+.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:flex-start}
 .thumb{
-  width:72px;
-  height:72px;        /* explicit equal dimensions = square */
+  width:80px;
+  height:auto;          /* preserves natural aspect ratio of each thumbnail */
   border-radius:8px;
   border:1.5px solid var(--border);
-  object-fit:cover;
+  display:block;
   cursor:pointer;
   transition:border-color .2s;
   flex-shrink:0;
@@ -254,7 +249,7 @@ const PRODUCTS = {
       en:[{l:'Win Rate',v:'68%'},{l:'Max DD',v:'5.1%'},{l:'Trades/Month',v:'~55'},{l:'Risk/Trade',v:'1.5%'}]
     },
     // FIX: correct filename syntax (was broken: imgs:[GOLD-Strike.png] — no quotes)
-    imgs:['GOLD-Strike.png','gold-strike-ea1.jpg']
+    imgs:['GOLD-Strike.png']
   },
   'prime-trader':{
     name:'Prime Trader EA©', price:159, icon:'👑', stars:5, reviews:89,
