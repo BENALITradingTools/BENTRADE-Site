@@ -109,7 +109,19 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .icon-purple{background:rgba(155,89,182,.1);border:.5px solid rgba(155,89,182,.2)}
 .icon-green{background:rgba(46,204,113,.1);border:.5px solid rgba(46,204,113,.2)}
 .icon-red{background:rgba(231,76,60,.1);border:.5px solid rgba(231,76,60,.2)}
-.card-tags{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.card-tags{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  width:100%;
+}
+html[dir="rtl"] .card-header{
+  flex-direction: row;
+}
+
+html[dir="ltr"] .card-header{
+  flex-direction: row-reverse;
+}
 .tag{font-size:10px;padding:3px 9px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-weight:500;white-space:nowrap}
 .tag-ea{background:rgba(52,152,219,.1);color:var(--blue);border:.5px solid rgba(52,152,219,.2)}
 .tag-ind{background:rgba(155,89,182,.1);color:#9b59b6;border:.5px solid rgba(155,89,182,.2)}
