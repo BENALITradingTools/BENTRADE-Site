@@ -288,13 +288,22 @@ function render() {
   document.getElementById('bcStore').textContent  = L==='ar' ? 'المتجر'        : 'Store';
   document.getElementById('bcCat').textContent    = L==='ar' ? 'أدوات التداول' : 'Trading Tools';
 
+
+  document.getElementById('lblDesc').textContent =
+  (L === 'ar' ? 'وصف المنتج' : 'Product Description');
+
+  document.getElementById('lblFeatures').textContent =
+  (L === 'ar' ? 'المميزات' : 'Features');
+
+  document.getElementById('lblStats').textContent =
+  (L === 'ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
   // Section labels
-  document.getElementById('lblDesc').childNodes[document.getElementById('lblDesc').childNodes.length-1].textContent
-    = ' ' + (L==='ar' ? 'وصف المنتج' : 'Product Description');
-  document.getElementById('lblFeatures').childNodes[document.getElementById('lblFeatures').childNodes.length-1].textContent
-    = ' ' + (L==='ar' ? 'المميزات' : 'Features');
-  document.getElementById('lblStats').childNodes[document.getElementById('lblStats').childNodes.length-1].textContent
-    = ' ' + (L==='ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
+//  document.getElementById('lblDesc').childNodes[document.getElementById('lblDesc').childNodes.length-1].textContent
+ //   = ' ' + (L==='ar' ? 'وصف المنتج' : 'Product Description');
+ // document.getElementById('lblFeatures').childNodes[document.getElementById('lblFeatures').childNodes.length-1].textContent
+ //   = ' ' + (L==='ar' ? 'المميزات' : 'Features');
+ // document.getElementById('lblStats').childNodes[document.getElementById('lblStats').childNodes.length-1].textContent
+  //  = ' ' + (L==='ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
 
   // Product data
   document.title = p.name + ' — BENTRADE';
