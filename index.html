@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,0.10);
-  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;--bg-hover:#162535;
-  --border:#1a2e3e;--border-gold:#3a2e18;
-  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
-  --green:#2ecc71;--red:#e74c3c;--blue:#3498db;
+--gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,0.10);
+--bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;--bg-hover:#162535;
+--border:#1a2e3e;--border-gold:#3a2e18;
+--text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+--green:#2ecc71;--red:#e74c3c;--blue:#3498db;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -29,7 +29,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .nav-right{display:flex;align-items:center;gap:12px}
 .nav-secure{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary)}
 .shield-box{width:30px;height:30px;background:rgba(46,204,113,.1);border:.5px solid rgba(46,204,113,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
-/* Language toggle */
 .lang-btn{padding:6px 14px;border-radius:20px;border:.5px solid var(--border-gold);background:var(--gold-glow);color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.05em}
 .lang-btn:hover{background:rgba(200,168,75,.2)}
 
@@ -81,10 +80,31 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .product-card.featured{border-color:var(--gold-dim)}
 .card-top-bar{height:3px;background:var(--border)}
 .product-card.featured .card-top-bar{background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-dim))}
-.card-gallery{height:170px;overflow:hidden;background:var(--bg-card2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+/* FIX 1: 1:1 square gallery on homepage cards */
+.card-gallery{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;      /* enforce square */
+  overflow:hidden;
+  background:var(--bg-card2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.card-gallery img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;   /* fill the square, crop edges */
+  display:block;
+}
 .gallery-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px}
 .gallery-placeholder .gi{font-size:44px}
 .gallery-placeholder span{font-size:11px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
+
 .card-header{padding:16px 18px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .product-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .icon-blue{background:rgba(52,152,219,.12);border:.5px solid rgba(52,152,219,.2)}
@@ -123,12 +143,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 [data-lang="en"] .card-body,[data-lang="en"] .product-desc,[data-lang="en"] .features-list{font-family:'Syne',sans-serif}
 
 @media(max-width:640px){
-  nav{padding:10px 14px}
-  .hero,.catalog-nav,.sub-tabs-wrap,.products-section{padding-left:14px;padding-right:14px}
-  .hero-stats{gap:18px}
-  .trust-bar{gap:14px;padding:14px}
-  .cat-tabs{gap:2px}
-  .cat-tab{padding:10px 14px;font-size:13px}
+nav{padding:10px 14px}
+.hero,.catalog-nav,.sub-tabs-wrap,.products-section{padding-left:14px;padding-right:14px}
+.hero-stats{gap:18px}
+.trust-bar{gap:14px;padding:14px}
+.cat-tabs{gap:2px}
+.cat-tab{padding:10px 14px;font-size:13px}
 }
 </style>
 </head>
@@ -138,11 +158,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 <nav>
   <div class="nav-logo">
     <div class="logo-img-wrap">
-      <img src="Logo.png" alt="BENTRADE"> 
+      <img src="Logo.png" alt="BENTRADE">
     </div>
     <div class="logo-text-wrap">
       <div class="name">BENTRADE</div>
-      <div class="sub" data-ar="للتداول" data-en="Trading ">للتداول</div>
+      <div class="sub" data-ar="للتداول" data-en="Trading">للتداول</div>
     </div>
   </div>
   <div class="nav-right">
@@ -215,10 +235,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 
   <div class="products-grid" id="productsGrid">
 
-    <!-- ROBOTS -->
+    <!-- ZENTRA -->
     <div class="product-card featured" data-type="robots" data-platform="mt4 mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">⚛️</div><span>images/zentra-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">⚛️</div><span>images/zentra-1.jpg</span></div>
+        <!-- <img src="images/zentra-1.jpg" alt="Quantum ZENTRA EA"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-blue">⚛️</div>
         <div class="card-tags">
@@ -245,9 +268,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- GOLDEN GUARD -->
     <div class="product-card" data-type="robots" data-platform="mt4 mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🛡️</div><span>images/golden-guard-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">🛡️</div><span>images/golden-guard-1.jpg</span></div>
+        <!-- <img src="images/golden-guard-1.jpg" alt="GOLDEN Guard Pro EA"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-gold">🛡️</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
@@ -271,9 +298,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- GOLDEN ALGO -->
     <div class="product-card" data-type="robots" data-platform="mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🧠</div><span>images/golden-algo-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">🧠</div><span>images/golden-algo-1.jpg</span></div>
+        <!-- <img src="images/golden-algo-1.jpg" alt="GOLDEN ALGO MT5"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-purple">🧠</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt5">MT5</span></div>
@@ -297,9 +328,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- GOLD STRIKE -->
     <div class="product-card" data-type="robots" data-platform="mt4 mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">⚡</div><span>images/gold-strike-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <!-- FIX: Use GOLD-Strike.png (correct filename with hyphen) -->
+        <img src="GOLD-Strike.png" alt="Gold Strike EA">
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-gold">⚡</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
@@ -323,9 +358,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- PRIME TRADER -->
     <div class="product-card" data-type="robots" data-platform="mt4 mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">👑</div><span>images/prime-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">👑</div><span>images/prime-1.jpg</span></div>
+        <!-- <img src="images/prime-1.jpg" alt="Prime Trader EA"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-green">👑</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
@@ -349,9 +388,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- FOREX STRIKE -->
     <div class="product-card" data-type="robots" data-platform="mt4 mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">💱</div><span>images/forex-strike-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">💱</div><span>images/forex-strike-1.jpg</span></div>
+        <!-- <img src="images/forex-strike-1.jpg" alt="FOREX Strike EA"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-blue">💱</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt4">MT4</span><span class="tag tag-mt5">MT5</span></div>
@@ -375,9 +418,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
+    <!-- BITROCKET -->
     <div class="product-card" data-type="robots" data-platform="mt5">
       <div class="card-top-bar"></div>
-      <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🚀</div><span>images/bitrocket-1.jpg</span></div></div>
+      <div class="card-gallery">
+        <div class="gallery-placeholder"><div class="gi">🚀</div><span>images/bitrocket-1.jpg</span></div>
+        <!-- <img src="images/bitrocket-1.jpg" alt="BitRocket EA MT5"> -->
+      </div>
       <div class="card-header">
         <div class="product-icon-wrap icon-red">🚀</div>
         <div class="card-tags"><span class="tag tag-ea">EA</span><span class="tag tag-mt5">MT5</span></div>
@@ -401,7 +448,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
-    <!-- INDICATORS — add your indicator products here -->
+    <!-- INDICATORS placeholder -->
     <div class="product-card" data-type="indicators" data-platform="mt4 mt5" style="display:none">
       <div class="card-top-bar"></div>
       <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">📊</div><span>images/indicator-1.jpg</span></div></div>
@@ -422,7 +469,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
-    <!-- TOOLS — add your tools here -->
+    <!-- TOOLS placeholder -->
     <div class="product-card" data-type="tools" data-platform="mt4 mt5" style="display:none">
       <div class="card-top-bar"></div>
       <div class="card-gallery"><div class="gallery-placeholder"><div class="gi">🛠️</div><span>images/tool-1.jpg</span></div></div>
@@ -443,59 +490,44 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
     </div>
 
-  </div>
+  </div><!-- /products-grid -->
 
   <div class="empty-state" id="emptyState">
     <div class="empty-state-icon">📭</div>
     <div id="emptyText" data-ar="لا توجد منتجات في هذا القسم بعد" data-en="No products in this section yet">لا توجد منتجات في هذا القسم بعد</div>
   </div>
-</div>
-</div>
+
+</div><!-- /products-section -->
+
+</div><!-- /page -->
 
 <script>
-const _lang = () => {
-  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
-  return m ? m[1] : 'ar';
-};
-const _setLang = (l) => {
-  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
-  // fallback for file:// where cookies may also be restricted
-  try { localStorage.setItem('bt_lang', l); } catch(e){}
-};
-// Read from either storage
 const _readLang = () => {
   const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
   if (m) return m[1];
   try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
 };
-let currentCat  = 'all';
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
+
+let currentCat = 'all';
 let currentPlat = 'all';
 let currentLang = _readLang();
 
 const LABELS = {
-  ar: {
-    all:        {title:'جميع المنتجات',       sub:'منتج متاح'},
-    robots:     {title:'روبوتات التداول',      sub:'روبوت متاح'},
-    indicators: {title:'المؤشرات',             sub:'مؤشر متاح'},
-    tools:      {title:'أدوات التداول',        sub:'أداة متاحة'},
-  },
-  en: {
-    all:        {title:'All Products',         sub:'product available'},
-    robots:     {title:'Trading Robots',       sub:'robot available'},
-    indicators: {title:'Indicators',           sub:'indicator available'},
-    tools:      {title:'Trading Tools',        sub:'tool available'},
-  }
+  ar:{ all:{title:'جميع المنتجات',sub:'منتج متاح'}, robots:{title:'روبوتات التداول',sub:'روبوت متاح'}, indicators:{title:'المؤشرات',sub:'مؤشر متاح'}, tools:{title:'أدوات التداول',sub:'أداة متاحة'} },
+  en:{ all:{title:'All Products',sub:'product available'}, robots:{title:'Trading Robots',sub:'robot available'}, indicators:{title:'Indicators',sub:'indicator available'}, tools:{title:'Trading Tools',sub:'tool available'} }
 };
 
 function switchCat(cat, btn) {
-  currentCat  = cat;
+  currentCat = cat;
   currentPlat = 'all';
   document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  // Show sub-tabs only when a specific category is selected
   const sw = document.getElementById('subTabsWrap');
   sw.classList.toggle('show', cat !== 'all');
-  // Reset sub-tabs
   document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
   document.querySelector('.sub-tab[data-plat="all"]').classList.add('active');
   filterCards();
@@ -509,53 +541,39 @@ function switchPlat(plat, btn) {
 }
 
 function filterCards() {
-  const cards   = document.querySelectorAll('.product-card');
-  let visible   = 0;
+  const cards = document.querySelectorAll('.product-card');
+  let visible = 0;
   cards.forEach(c => {
-    const typeOk = currentCat  === 'all' || c.dataset.type === currentCat;
+    const typeOk = currentCat === 'all' || c.dataset.type === currentCat;
     const platOk = currentPlat === 'all' || (c.dataset.platform && c.dataset.platform.includes(currentPlat));
-    const show   = typeOk && platOk;
+    const show = typeOk && platOk;
     c.style.display = show ? '' : 'none';
     if (show) visible++;
   });
-  // Update section header
   const L = LABELS[currentLang][currentCat];
   document.getElementById('sectionTitle').textContent = L.title;
-  document.getElementById('sectionSub').textContent   = visible + ' ' + L.sub;
-  // Empty state
+  document.getElementById('sectionSub').textContent = visible + ' ' + L.sub;
   document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
 }
 
-/* ── Language toggle ── */
 function toggleLang() {
   currentLang = currentLang === 'ar' ? 'en' : 'ar';
   _setLang(currentLang);
-  const html  = document.documentElement;
-  html.setAttribute('lang',     currentLang);
-  html.setAttribute('dir',      currentLang === 'ar' ? 'rtl' : 'ltr');
-  html.setAttribute('data-lang',currentLang);
+  const html = document.documentElement;
+  html.setAttribute('lang', currentLang);
+  html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  html.setAttribute('data-lang', currentLang);
   document.getElementById('langBtn').textContent = currentLang === 'ar' ? 'EN' : 'عر';
-
-  // Swap all data-ar / data-en text nodes
   document.querySelectorAll('[data-ar]').forEach(el => {
     const val = el.getAttribute('data-' + currentLang);
     if (!val) return;
-    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val;
-    else if (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'DIV' || el.tagName === 'P') {
-      // Only set if no child elements (pure text node)
-      if (el.children.length === 0) el.textContent = val;
-    }
+    if (el.children.length === 0) el.textContent = val;
   });
-
-  // Swap h1 innerHTML
   const h1 = document.querySelector('.hero h1');
   if (h1) h1.innerHTML = h1.getAttribute('data-' + currentLang);
-
-  // Re-apply filter labels
   filterCards();
 }
 
-// Init
 if (_readLang() !== 'ar') toggleLang();
 filterCards();
 </script>

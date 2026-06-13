@@ -7,15 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
-  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
-  --border:#1a2e3e;--border-gold:#3a2e18;
-  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
-  --green:#2ecc71;--blue:#3498db;
+--gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
+--bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
+--border:#1a2e3e;--border-gold:#3a2e18;
+--text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+--green:#2ecc71;--blue:#3498db;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+
 nav{display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px)}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--gold)}
 .nav-left{display:flex;align-items:center;gap:10px}
@@ -27,16 +28,67 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .wrap{max-width:980px;margin:0 auto;padding:32px 24px 80px;position:relative;z-index:1}
 .breadcrumb{font-size:11px;color:var(--text-muted);margin-bottom:24px;font-family:'IBM Plex Mono',monospace}
 .breadcrumb a{color:var(--text-secondary);text-decoration:none}.breadcrumb a:hover{color:var(--gold)}
-
 .layout{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start}
-.main-img{width: 1024px;height: 1024px;max-width: 100%;object-fit: cover;border-radius: 14px;border: .5px solid var(--border);display: none;}
-.main-placeholder{width:100%;height:260px;background:var(--bg-card2);border:.5px solid var(--border-gold);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+
+/* FIX: 1:1 square main image */
+.main-img-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  border-radius:14px;
+  border:.5px solid var(--border);
+  overflow:hidden;
+  background:var(--bg-card2);
+}
+.main-img-wrap img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.main-placeholder{
+  width:100%;
+  aspect-ratio:1/1;
+  background:var(--bg-card2);
+  border:.5px solid var(--border-gold);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
 .mp-icon{font-size:60px}
 .mp-text{font-size:13px;color:var(--text-muted);font-family:'IBM Plex Mono',monospace}
+
+/* FIX: 1:1 square thumbnails */
 .thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.thumb{width:78px;aspect-ratio: 1 / 1;height:auto;border-radius:8px;border:1.5px solid var(--border);object-fit: cover;cursor:pointer;transition:border-color .2s;}
+.thumb{
+  width:72px;
+  height:72px;        /* explicit equal dimensions = square */
+  border-radius:8px;
+  border:1.5px solid var(--border);
+  object-fit:cover;
+  cursor:pointer;
+  transition:border-color .2s;
+  flex-shrink:0;
+}
 .thumb:hover,.thumb.active{border-color:var(--gold)}
-.thumb-placeholder{width:78px;height:58px;background:var(--bg-card2);border:1.5px dashed var(--border-gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-muted)}
+.thumb-placeholder{
+  width:72px;
+  height:72px;
+  background:var(--bg-card2);
+  border:1.5px dashed var(--border-gold);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  color:var(--text-muted);
+  flex-shrink:0;
+}
 
 .info-panel{position:sticky;top:76px}
 .panel-card{background:var(--bg-card);border:.5px solid var(--border);border-radius:18px;padding:22px}
@@ -58,7 +110,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .sbadge{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
 .divider{height:.5px;background:var(--border);margin:16px 0}
 .guarantee{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(46,204,113,.06);border:.5px solid rgba(46,204,113,.2);border-radius:10px;font-size:12px;color:var(--green)}
-
 .section-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:8px}
 .section-title::before{content:'';width:3px;height:15px;background:var(--gold);border-radius:2px}
 .desc-text{font-size:14px;color:var(--text-secondary);line-height:1.8}
@@ -71,7 +122,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .stat-box .lbl{font-size:11px;color:var(--text-muted);margin-top:4px}
 
 [data-lang="en"]{direction:ltr}
-
 @media(max-width:700px){
   nav{padding:10px 14px}
   .layout{grid-template-columns:1fr}
@@ -81,6 +131,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 </style>
 </head>
 <body>
+
 <nav>
   <div class="nav-left">
     <a class="back-link" href="index.html" id="backLink">← <span id="backTxt">العودة للمتجر</span></a>
@@ -96,19 +147,21 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 
   <div class="layout">
     <div>
-      <img id="mainImg" class="main-img" src="" alt="">
+      <!-- Main image: replaced by JS -->
+      <div id="mainImgWrap" class="main-img-wrap" style="display:none">
+        <img id="mainImg" src="" alt="">
+      </div>
       <div id="mainPlaceholder" class="main-placeholder">
         <div class="mp-icon" id="pIcon">⚛️</div>
         <div class="mp-text" id="mpText">Add product images in images/ folder</div>
       </div>
+
       <div class="thumbs" id="thumbsRow"></div>
 
       <div class="section-title" id="lblDesc">وصف المنتج</div>
       <p class="desc-text" id="pDesc">—</p>
-
       <div class="section-title" id="lblFeatures">المميزات</div>
       <div id="pFeats"></div>
-
       <div class="section-title" id="lblStats">الأداء والإحصائيات</div>
       <div class="stats-grid" id="pStats"></div>
     </div>
@@ -121,7 +174,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
         <div class="price-big" id="pPrice">—</div>
         <div class="price-note" id="priceLbl">ترخيص دائم — دفع مرة واحدة فقط</div>
         <a id="btnBuy" class="btn-buy-big" href="#">🛒 <span id="buyTxt">اشتري الآن</span></a>
-        <a id="btnPaypal" class="btn-paypal-big" href="#" target="_blank" id="ppTxt">الدفع عبر PayPal</a>
+        <a id="btnPaypal" class="btn-paypal-big" href="#" target="_blank">الدفع عبر PayPal</a>
         <div class="secure-badges">
           <span class="sbadge">🔒 SSL</span>
           <span class="sbadge" id="badge1">✓ PayPal مضمون</span>
@@ -135,13 +188,15 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 </div>
 
 <script>
+// ── Product database ──────────────────────────────────────────────────────────
+// FIX: each product has its own unique paypal link
 const PRODUCTS = {
   'zentra':{
     name:'Quantum ZENTRA EA©', price:199, icon:'⚛️', stars:5, reviews:128,
-    cat:    {ar:'فوركس + ذهب',        en:'Forex + Gold'},
-    platform:{ar:'MT4 / MT5',          en:'MT4 / MT5'},
-    desc:   {ar:'روبوت تداول كمي متطور يعمل 24/7 باستراتيجيات متعددة وإدارة مخاطر ذكية. الأمثل للمبتدئين والمحترفين على حد سواء.',
-             en:'Advanced quantitative trading robot running 24/7 with multi-strategy logic and smart risk management. Ideal for both beginners and professionals.'},
+    paypal:'https://www.paypal.com/ncp/payment/XXXX1', // ← replace with real link
+    cat:{ar:'فوركس + ذهب',en:'Forex + Gold'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
+    desc:{ar:'روبوت تداول كمي متطور يعمل 24/7 باستراتيجيات متعددة وإدارة مخاطر ذكية.',
+          en:'Advanced quantitative trading robot running 24/7 with multi-strategy logic and smart risk management.'},
     features:{
       ar:['تداول تلقائي 24/7 على الفوركس والذهب','إدارة مخاطر ديناميكية متطورة','سحب أقصى أقل من 4.2%','إعداد سهل خلال 5 دقائق','دعم فني مدى الحياة'],
       en:['Automated 24/7 trading on Forex & Gold','Advanced dynamic risk management','Max drawdown under 4.2%','Easy 5-minute setup','Lifetime technical support']
@@ -154,9 +209,10 @@ const PRODUCTS = {
   },
   'golden-guard':{
     name:'GOLDEN Guard Pro EA©', price:179, icon:'🛡️', stars:5, reviews:94,
+    paypal:'https://www.paypal.com/ncp/payment/XXXX2', // ← replace with real link
     cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
-    desc:{ar:'روبوت ذهبي احترافي مصمم خصيصاً للتداول على XAU/USD مع حماية متقدمة لرأس المال وتنفيذ سريع.',
-          en:'Professional gold robot exclusively designed for XAU/USD trading with advanced capital protection and fast execution.'},
+    desc:{ar:'روبوت ذهبي احترافي مصمم خصيصاً للتداول على XAU/USD مع حماية متقدمة لرأس المال.',
+          en:'Professional gold robot exclusively designed for XAU/USD trading with advanced capital protection.'},
     features:{
       ar:['متخصص 100% في الذهب XAU/USD','نظام حماية رأس المال المدمج','نتائج موثقة على Myfxbook','فلتر أخبار مدمج'],
       en:['100% XAU/USD specialist','Built-in capital protection system','Verified results on Myfxbook','Built-in news filter']
@@ -169,6 +225,7 @@ const PRODUCTS = {
   },
   'golden-algo':{
     name:'GOLDEN ALGO MT5©', price:189, icon:'🧠', stars:5, reviews:76,
+    paypal:'https://www.paypal.com/ncp/payment/XXXX3', // ← replace with real link
     cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT5 فقط',en:'MT5 Only'},
     desc:{ar:'خوارزمية ذهبية ذكية مصممة حصرياً لـ MT5 بأداء عالي ونتائج مثبتة على حسابات حقيقية.',
           en:'Smart gold algorithm designed exclusively for MT5 with high performance and proven results on live accounts.'},
@@ -184,7 +241,7 @@ const PRODUCTS = {
   },
   'gold-strike':{
     name:'Gold Strike EA©', price:149, icon:'⚡', stars:4, reviews:61,
-    paypal:'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8',
+    paypal:'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8', // ← real link already
     cat:{ar:'الذهب XAU/USD',en:'Gold XAU/USD'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
     desc:{ar:'روبوت الضربة الذهبية السريع — يستهدف الاندفاعات القوية في XAU/USD بدقة عالية على M15 و H1.',
           en:'Fast gold strike robot — targets strong momentum moves in XAU/USD with precision on M15 & H1.'},
@@ -196,10 +253,12 @@ const PRODUCTS = {
       ar:[{l:'نسبة الفوز',v:'68%'},{l:'أقصى سحب',v:'5.1%'},{l:'الصفقات/شهر',v:'~55'},{l:'المخاطرة/صفقة',v:'1.5%'}],
       en:[{l:'Win Rate',v:'68%'},{l:'Max DD',v:'5.1%'},{l:'Trades/Month',v:'~55'},{l:'Risk/Trade',v:'1.5%'}]
     },
-    imgs:[GOLD-Strike.png]
+    // FIX: correct filename syntax (was broken: imgs:[GOLD-Strike.png] — no quotes)
+    imgs:['GOLD-Strike.png']
   },
   'prime-trader':{
     name:'Prime Trader EA©', price:159, icon:'👑', stars:5, reviews:89,
+    paypal:'https://www.paypal.com/ncp/payment/XXXX5', // ← replace with real link
     cat:{ar:'فوركس',en:'Forex'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
     desc:{ar:'نظام تداول احترافي متكامل يعمل على أكثر من 10 أزواج عملات مع أداء مستقر في جميع ظروف السوق.',
           en:'Complete professional trading system covering 10+ currency pairs with stable performance in all market conditions.'},
@@ -215,6 +274,7 @@ const PRODUCTS = {
   },
   'forex-strike':{
     name:'FOREX Strike EA©', price:139, icon:'💱', stars:4, reviews:53,
+    paypal:'https://www.paypal.com/ncp/payment/XXXX6', // ← replace with real link
     cat:{ar:'فوركس',en:'Forex'}, platform:{ar:'MT4 / MT5',en:'MT4 / MT5'},
     desc:{ar:'روبوت فوركس قوي متخصص في EUR/USD و GBP/USD مع فلتر أخبار مدمج وباك تست موثق 10 سنوات.',
           en:'Powerful Forex robot specializing in EUR/USD & GBP/USD with built-in news filter and 10-year verified backtest.'},
@@ -230,6 +290,7 @@ const PRODUCTS = {
   },
   'bitrocket':{
     name:'BitRocket EA MT5©', price:169, icon:'🚀', stars:5, reviews:47,
+    paypal:'https://www.paypal.com/ncp/payment/XXXX7', // ← replace with real link
     cat:{ar:'كريبتو',en:'Crypto'}, platform:{ar:'MT5 فقط',en:'MT5 Only'},
     desc:{ar:'روبوت تداول العملات الرقمية على MT5 مع تنفيذ فائق السرعة على BTC/USD و ETH/USD ونتائج موثقة.',
           en:'Crypto trading robot on MT5 with ultra-fast execution on BTC/USD & ETH/USD and verified results 2024-2026.'},
@@ -245,91 +306,66 @@ const PRODUCTS = {
   }
 };
 
-const PAYPAL_ME = 'YOUR_PAYPAL_ME_USERNAME';
-
 const id = new URLSearchParams(window.location.search).get('id') || 'zentra';
-const p  = PRODUCTS[id];
+const p = PRODUCTS[id];
 if (!p) { document.body.innerHTML = '<p style="padding:40px;color:#c8a84b">Product not found</p>'; }
 
-const _lang = () => {
-  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
-  return m ? m[1] : 'ar';
-};
-const _setLang = (l) => {
-  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
-  // fallback for file:// where cookies may also be restricted
-  try { localStorage.setItem('bt_lang', l); } catch(e){}
-};
-// Read from either storage
 const _readLang = () => {
   const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
   if (m) return m[1];
   try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
 };
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
+
 let lang = _readLang();
-// Apply direction immediately to avoid flash
+
+// Avoid direction flash
 (function(){
-  const l = lang;
-  document.documentElement.setAttribute('lang', l);
-  document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
-  document.documentElement.setAttribute('data-lang', l);
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+  document.documentElement.setAttribute('data-lang', lang);
 })();
 
 function render() {
   const L = lang;
-  const html = document.documentElement;
-  html.setAttribute('lang', L);
-  html.setAttribute('dir',  L === 'ar' ? 'rtl' : 'ltr');
-  html.setAttribute('data-lang', L);
+  document.documentElement.setAttribute('lang', L);
+  document.documentElement.setAttribute('dir', L === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('data-lang', L);
   document.getElementById('langBtn').textContent = L === 'ar' ? 'EN' : 'عر';
 
-  // Nav
-  document.getElementById('backTxt').textContent  = L==='ar' ? 'العودة للمتجر' : 'Back to Store';
-  document.getElementById('bcStore').textContent  = L==='ar' ? 'المتجر'        : 'Store';
-  document.getElementById('bcCat').textContent    = L==='ar' ? 'أدوات التداول' : 'Trading Tools';
+  document.getElementById('backTxt').textContent = L === 'ar' ? 'العودة للمتجر' : 'Back to Store';
+  document.getElementById('bcStore').textContent  = L === 'ar' ? 'المتجر' : 'Store';
+  document.getElementById('bcCat').textContent    = L === 'ar' ? 'أدوات التداول' : 'Trading Tools';
+  document.getElementById('lblDesc').textContent  = L === 'ar' ? 'وصف المنتج' : 'Product Description';
+  document.getElementById('lblFeatures').textContent = L === 'ar' ? 'المميزات' : 'Features';
+  document.getElementById('lblStats').textContent = L === 'ar' ? 'الأداء والإحصائيات' : 'Performance & Stats';
 
-
-  document.getElementById('lblDesc').textContent =
-  (L === 'ar' ? 'وصف المنتج' : 'Product Description');
-
-  document.getElementById('lblFeatures').textContent =
-  (L === 'ar' ? 'المميزات' : 'Features');
-
-  document.getElementById('lblStats').textContent =
-  (L === 'ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
-  // Section labels
-//  document.getElementById('lblDesc').childNodes[document.getElementById('lblDesc').childNodes.length-1].textContent
- //   = ' ' + (L==='ar' ? 'وصف المنتج' : 'Product Description');
- // document.getElementById('lblFeatures').childNodes[document.getElementById('lblFeatures').childNodes.length-1].textContent
- //   = ' ' + (L==='ar' ? 'المميزات' : 'Features');
- // document.getElementById('lblStats').childNodes[document.getElementById('lblStats').childNodes.length-1].textContent
-  //  = ' ' + (L==='ar' ? 'الأداء والإحصائيات' : 'Performance & Stats');
-
-  // Product data
   document.title = p.name + ' — BENTRADE';
-  document.getElementById('bcName').textContent   = p.name;
-  document.getElementById('pName').textContent    = p.name;
-  document.getElementById('pDesc').textContent    = p.desc[L];
-  document.getElementById('pPrice').textContent   = '$' + p.price;
-  document.getElementById('pIcon').textContent    = p.icon;
-  document.getElementById('mpText').textContent   = L==='ar' ? 'أضف صور المنتج في مجلد images/' : 'Add product images to images/ folder';
-  document.getElementById('priceLbl').textContent = L==='ar' ? 'ترخيص دائم — دفع مرة واحدة فقط' : 'Lifetime license — one-time payment';
-  document.getElementById('buyTxt').textContent   = L==='ar' ? 'اشتري الآن' : 'Buy Now';
-  document.getElementById('btnPaypal').textContent= L==='ar' ? 'الدفع عبر PayPal' : 'Pay with PayPal';
-  document.getElementById('badge1').textContent   = L==='ar' ? '✓ PayPal مضمون' : '✓ PayPal Secured';
-  document.getElementById('badge2').textContent   = L==='ar' ? '📦 تسليم فوري'   : '📦 Instant Delivery';
-  document.getElementById('guaranteeTxt').textContent = L==='ar'
+  document.getElementById('bcName').textContent  = p.name;
+  document.getElementById('pName').textContent   = p.name;
+  document.getElementById('pDesc').textContent   = p.desc[L];
+  document.getElementById('pPrice').textContent  = '$' + p.price;
+  document.getElementById('pIcon').textContent   = p.icon;
+  document.getElementById('mpText').textContent  = L === 'ar' ? 'أضف صور المنتج في مجلد images/' : 'Add product images to images/ folder';
+  document.getElementById('priceLbl').textContent = L === 'ar' ? 'ترخيص دائم — دفع مرة واحدة فقط' : 'Lifetime license — one-time payment';
+  document.getElementById('buyTxt').textContent  = L === 'ar' ? 'اشتري الآن' : 'Buy Now';
+  document.getElementById('btnPaypal').textContent = L === 'ar' ? 'الدفع عبر PayPal' : 'Pay with PayPal';
+  document.getElementById('badge1').textContent  = L === 'ar' ? '✓ PayPal مضمون' : '✓ PayPal Secured';
+  document.getElementById('badge2').textContent  = L === 'ar' ? '📦 تسليم فوري' : '📦 Instant Delivery';
+  document.getElementById('guaranteeTxt').textContent = L === 'ar'
     ? '🛡️ ضمان استرداد كامل خلال 7 أيام'
     : '🛡️ Full refund guarantee within 7 days';
 
-  // Buttons
-  document.getElementById('btnBuy').href    = 'checkout.html?product=' + encodeURIComponent(p.name) + '&price=' + p.price + '&id=' + id + '&lang=' + L;
+  // Buttons: checkout for cart flow, paypal for direct pay
+  document.getElementById('btnBuy').href = 'checkout.html?product=' + encodeURIComponent(p.name) + '&price=' + p.price + '&id=' + id + '&lang=' + L;
   document.getElementById('btnPaypal').href = p.paypal;
-  //document.getElementById('btnPaypal').href = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + p.price + 'USD';
 
   // Stars
   document.getElementById('pStars').innerHTML =
-    Array.from({length:5},(_,i)=>`<span class="star${i>=p.stars?' e':''}">★</span>`).join('') +
+    Array.from({length:5},(_,i) => `<span class="star${i>=p.stars?' e':''}">★</span>`).join('') +
     `<span class="reviews" style="font-size:12px;color:var(--text-muted);margin-right:8px">(${p.reviews} ${L==='ar'?'تقييم':'reviews'})</span>`;
 
   // Tags
@@ -339,11 +375,11 @@ function render() {
      <span class="tag tag-cat">${p.platform[L]}</span>`;
 
   // Features
-  document.getElementById('pFeats').innerHTML = p.features[L].map(f=>
+  document.getElementById('pFeats').innerHTML = p.features[L].map(f =>
     `<div class="feat-item"><div class="feat-check">✓</div>${f}</div>`).join('');
 
   // Stats
-  document.getElementById('pStats').innerHTML = p.stats[L].map(s=>
+  document.getElementById('pStats').innerHTML = p.stats[L].map(s =>
     `<div class="stat-box"><div class="num">${s.v}</div><div class="lbl">${s.l}</div></div>`).join('');
 }
 
@@ -353,37 +389,35 @@ function toggleLang() {
   render();
 }
 
-// Gallery
+// Gallery with 1:1 square image
 function buildGallery() {
   const tr = document.getElementById('thumbsRow');
-  const mi = document.getElementById('mainImg');
-  const ph = document.getElementById('mainPlaceholder');
-
+  const wrap = document.getElementById('mainImgWrap');
+  const mi   = document.getElementById('mainImg');
+  const ph   = document.getElementById('mainPlaceholder');
   tr.innerHTML = '';
 
   if (p.imgs && p.imgs.length > 0) {
     ph.style.display = 'none';
-    mi.style.display = 'block';
+    wrap.style.display = 'block';
     mi.src = p.imgs[0];
+    mi.alt = p.name;
 
     p.imgs.forEach((src, i) => {
       const t = document.createElement('img');
       t.src = src;
+      t.alt = p.name;
       t.className = 'thumb' + (i === 0 ? ' active' : '');
-
       t.onclick = () => {
         mi.src = src;
         document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
         t.classList.add('active');
       };
-
       tr.appendChild(t);
     });
-
   } else {
     ph.style.display = 'flex';
-    mi.style.display = 'none';
-
+    wrap.style.display = 'none';
     for (let i = 0; i < 4; i++) {
       const d = document.createElement('div');
       d.className = 'thumb-placeholder';

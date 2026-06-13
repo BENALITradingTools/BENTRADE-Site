@@ -7,16 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,0.10);
-  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
-  --border:#1a2e3e;--border-gold:#3a2e18;
-  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
-  --green:#2ecc71;
+--gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,0.10);
+--bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
+--border:#1a2e3e;--border-gold:#3a2e18;
+--text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+--green:#2ecc71;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
-
 nav{display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--gold)}
 .nav-sides{display:flex;align-items:center;gap:10px}
@@ -24,7 +23,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .back-link:hover{color:var(--text-primary);border-color:var(--gold-dim)}
 .lang-btn{padding:6px 14px;border-radius:20px;border:.5px solid var(--border-gold);background:var(--gold-glow);color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
 .lang-btn:hover{background:rgba(200,168,75,.2)}
-
 .page{max-width:960px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1}
 .page-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:6px}
 .page-sub{font-size:13px;color:var(--text-secondary);margin-bottom:32px}
@@ -71,8 +69,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .secure-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .sbadge{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:5px}
 
-[data-lang="en"]{direction:ltr}
+/* Error banner when PayPal link is not set */
+.link-error{display:none;padding:12px 16px;background:rgba(231,76,60,.1);border:.5px solid rgba(231,76,60,.4);border-radius:10px;margin-bottom:16px;font-size:13px;color:#e74c3c;line-height:1.6}
 
+[data-lang="en"]{direction:ltr}
 @media(max-width:700px){
   nav{padding:10px 14px}
   .layout{grid-template-columns:1fr}
@@ -96,11 +96,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
   <p class="page-sub" data-ar="خطوة واحدة فقط تفصلك عن بدء التداول الاحترافي" data-en="One step away from professional trading">خطوة واحدة فقط تفصلك عن بدء التداول الاحترافي</p>
 
   <div class="layout">
-
     <!-- Payment -->
     <div class="payment-card">
       <div class="section-label" data-ar="اختر طريقة الدفع" data-en="Choose payment method">اختر طريقة الدفع</div>
-
       <div class="methods">
         <div class="method active" id="m-paypal" onclick="switchMethod('paypal')">
           <div class="method-icon"><span class="paypal-logo-txt"><span class="pp1">Pay</span><span class="pp2">Pal</span></span></div>
@@ -116,6 +114,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 
       <!-- PayPal panel -->
       <div class="panel show" id="panel-paypal">
+        <div id="linkErrorPaypal" class="link-error" data-ar="⚠️ لم يتم إعداد رابط الدفع لهذا المنتج بعد. تواصل مع الدعم." data-en="⚠️ Payment link for this product is not configured yet. Please contact support.">
+          ⚠️ لم يتم إعداد رابط الدفع لهذا المنتج بعد. تواصل مع الدعم.
+        </div>
         <div class="paypal-info" data-ar="✅ الدفع يتم مباشرةً عبر PayPal — آمن ومشفر 100%.<br>بعد الدفع ستُحوَّل فوراً لصفحة التحميل." data-en="✅ Payment is processed securely via PayPal — 100% encrypted.<br>You will be redirected to the download page instantly.">✅ الدفع يتم مباشرةً عبر PayPal — آمن ومشفر 100%.<br>بعد الدفع ستُحوَّل فوراً لصفحة التحميل.</div>
         <a id="paypal-link" class="btn-paypal-main" href="#" target="_blank" data-ar="الدفع عبر PayPal" data-en="Pay with PayPal">الدفع عبر PayPal</a>
         <a id="paypal-debit" class="btn-debit-main" href="#" target="_blank" data-ar="الدفع ببطاقة Debit / Credit عبر PayPal" data-en="Pay with Debit / Credit Card via PayPal">الدفع ببطاقة Debit / Credit عبر PayPal</a>
@@ -128,6 +129,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 
       <!-- Card panel -->
       <div class="panel" id="panel-card">
+        <div id="linkErrorCard" class="link-error" data-ar="⚠️ لم يتم إعداد رابط الدفع لهذا المنتج بعد. تواصل مع الدعم." data-en="⚠️ Payment link for this product is not configured yet. Please contact support.">
+          ⚠️ لم يتم إعداد رابط الدفع لهذا المنتج بعد. تواصل مع الدعم.
+        </div>
         <div class="card-info" data-ar="💳 ادفع ببطاقتك البنكية بأمان عبر بوابة PayPal المشفرة. لا تحتاج لحساب PayPal." data-en="💳 Pay securely with your bank card via PayPal's encrypted gateway. No PayPal account needed.">💳 ادفع ببطاقتك البنكية بأمان عبر بوابة PayPal المشفرة. لا تحتاج لحساب PayPal.</div>
         <a id="card-link" class="btn-card-main" href="#" target="_blank" data-ar="الدفع ببطاقتك البنكية الآن" data-en="Pay with Bank Card Now">الدفع ببطاقتك البنكية الآن</a>
         <div class="secure-row">
@@ -135,7 +139,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
           <span class="sbadge">Visa / Mastercard / Mada</span>
         </div>
       </div>
-    </div>
+    </div><!-- /payment-card -->
 
     <!-- Order summary -->
     <div class="summary-card">
@@ -161,33 +165,26 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
       </div>
       <div class="guarantee" data-ar="🛡️ ضمان استرداد كامل خلال 7 أيام" data-en="🛡️ Full refund guarantee within 7 days">🛡️ ضمان استرداد كامل خلال 7 أيام</div>
     </div>
-
-  </div>
-</div>
+  </div><!-- /layout -->
+</div><!-- /page -->
 
 <script>
-// ── Language ──────────────────────────────────────────────
-const _lang = () => {
-  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
-  return m ? m[1] : 'ar';
-};
-const _setLang = (l) => {
-  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
-  try { localStorage.setItem('bt_lang', l); } catch(e){}
-};
+// ── Language ──────────────────────────────────────────────────────────────────
 const _readLang = () => {
   const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
   if (m) return m[1];
   try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
 };
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
 let lang = _readLang();
 
-// Apply direction immediately (no flash)
 (function(){
-  const l = lang;
-  document.documentElement.setAttribute('lang', l);
-  document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
-  document.documentElement.setAttribute('data-lang', l);
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+  document.documentElement.setAttribute('data-lang', lang);
 })();
 
 function applyLang() {
@@ -196,77 +193,75 @@ function applyLang() {
   document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
   document.documentElement.setAttribute('data-lang', l);
   document.getElementById('langBtn').textContent = l === 'ar' ? 'EN' : 'عر';
-
-  // Swap every element that has data-ar / data-en
   document.querySelectorAll('[data-ar]').forEach(el => {
     const val = el.getAttribute('data-' + l);
     if (!val) return;
-    if (el.children.length === 0) {
-      el.textContent = val;
-    } else {
-      // Elements with HTML content (like .paypal-info with <br>)
-      el.innerHTML = val;
-    }
+    if (el.children.length === 0) el.textContent = val;
+    else el.innerHTML = val;
   });
 }
-
 function toggleLang() {
   lang = lang === 'ar' ? 'en' : 'ar';
   _setLang(lang);
   applyLang();
 }
 
-// ── Product from URL ──────────────────────────────────────
+// ── Unique PayPal link per product ────────────────────────────────────────────
+// Replace XXXX placeholders with your real PayPal.com/ncp/payment links
+// Only gold-strike has a real link configured right now.
 const PAYPAL_LINKS = {
-  'zentra': 'https://www.paypal.com/ncp/payment/XXXX1',
-  'golden-guard': 'https://www.paypal.com/ncp/payment/XXXX2',
-  'golden-algo': 'https://www.paypal.com/ncp/payment/XXXX3',
-  'gold-strike': 'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8',
-  'prime-trader': 'https://www.paypal.com/ncp/payment/XXXX5',
-  'forex-strike': 'https://www.paypal.com/ncp/payment/XXXX6',
-  'bitrocket': 'https://www.paypal.com/ncp/payment/XXXX7'
+  'zentra':        'https://www.paypal.com/ncp/payment/XXXX1',    // ← replace
+  'golden-guard':  'https://www.paypal.com/ncp/payment/XXXX2',    // ← replace
+  'golden-algo':   'https://www.paypal.com/ncp/payment/XXXX3',    // ← replace
+  'gold-strike':   'https://www.paypal.com/ncp/payment/HYH9HMAKX5HE8', // ✓ real
+  'prime-trader':  'https://www.paypal.com/ncp/payment/XXXX5',    // ← replace
+  'forex-strike':  'https://www.paypal.com/ncp/payment/XXXX6',    // ← replace
+  'bitrocket':     'https://www.paypal.com/ncp/payment/XXXX7',    // ← replace
 };
-  
-// ── Product from URL ──────────────────────────────────────
-const PAYPAL_ME = 'YOUR_PAYPAL_ME_USERNAME'; // ← replace this
 
-const icons = {'zentra':'⚛️','golden-guard':'🛡️','golden-algo':'🧠','gold-strike':'⚡','prime-trader':'👑','forex-strike':'💱','bitrocket':'🚀'};
-const params      = new URLSearchParams(window.location.search);
+const icons = {
+  'zentra':'⚛️','golden-guard':'🛡️','golden-algo':'🧠',
+  'gold-strike':'⚡','prime-trader':'👑','forex-strike':'💱','bitrocket':'🚀'
+};
+
+const params = new URLSearchParams(window.location.search);
 const productName = params.get('product') || 'BENTRADE EA';
-const price       = params.get('price')   || '199';
-const productId   = params.get('id')      || 'zentra';
-
-const RETURN_URL = window.location.origin + '/thankyou.html?product=' + encodeURIComponent(productName) + '&id=' + productId;
+const price       = params.get('price') || '199';
+const productId   = params.get('id') || 'zentra';
 
 document.getElementById('sumName').textContent  = decodeURIComponent(productName);
 document.getElementById('sumPrice').textContent = '$' + price;
 document.getElementById('sumTotal').textContent = '$' + price;
 document.getElementById('sumIcon').textContent  = icons[productId] || '📦';
 
-//const paypalURL = 'https://www.paypal.com/paypalme/' + PAYPAL_ME + '/' + price + 'USD';
-//document.getElementById('paypal-link').href  = paypalURL;
-//document.getElementById('paypal-debit').href = paypalURL;
-//document.getElementById('card-link').href    = paypalURL;
+// FIX: validate the link — show error if it's a placeholder
+const paypalURL = PAYPAL_LINKS[productId] || '';
+const isPlaceholder = !paypalURL || /XXXX/.test(paypalURL);
 
-const paypalURL = PAYPAL_LINKS[productId];
-
-if (!paypalURL) {
-  console.error('No PayPal link for product:', productId);
+if (isPlaceholder) {
+  // Show error banners, disable buttons
+  document.getElementById('linkErrorPaypal').style.display = 'block';
+  document.getElementById('linkErrorCard').style.display   = 'block';
+  document.getElementById('paypal-link').style.opacity    = '0.4';
+  document.getElementById('paypal-link').style.pointerEvents = 'none';
+  document.getElementById('paypal-debit').style.opacity   = '0.4';
+  document.getElementById('paypal-debit').style.pointerEvents = 'none';
+  document.getElementById('card-link').style.opacity      = '0.4';
+  document.getElementById('card-link').style.pointerEvents = 'none';
+} else {
+  document.getElementById('paypal-link').href  = paypalURL;
+  document.getElementById('paypal-debit').href = paypalURL;
+  document.getElementById('card-link').href    = paypalURL;
 }
 
-document.getElementById('paypal-link').href  = paypalURL;
-document.getElementById('paypal-debit').href = paypalURL;
-document.getElementById('card-link').href    = paypalURL;
-  
-// ── Payment method toggle ─────────────────────────────────
+// ── Payment method toggle ─────────────────────────────────────────────────────
 function switchMethod(m) {
   document.getElementById('m-paypal').classList.toggle('active', m === 'paypal');
-  document.getElementById('m-card').classList.toggle('active',   m === 'card');
+  document.getElementById('m-card').classList.toggle('active', m === 'card');
   document.getElementById('panel-paypal').classList.toggle('show', m === 'paypal');
-  document.getElementById('panel-card').classList.toggle('show',   m === 'card');
+  document.getElementById('panel-card').classList.toggle('show', m === 'card');
 }
 
-// ── Init ──────────────────────────────────────────────────
 applyLang();
 </script>
 </body>

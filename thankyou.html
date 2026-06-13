@@ -7,27 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
-  --bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
-  --border:#1a2e3e;--border-gold:#3a2e18;
-  --text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
-  --green:#2ecc71;
+--gold:#c8a84b;--gold-light:#f0d07a;--gold-dim:#7a6230;--gold-glow:rgba(200,168,75,.10);
+--bg-deep:#080e14;--bg-card:#0d1820;--bg-card2:#0f1e2a;
+--border:#1a2e3e;--border-gold:#3a2e18;
+--text-primary:#e8dfc8;--text-secondary:#6a8898;--text-muted:#3a5060;
+--green:#2ecc71;--red:#e74c3c;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg-deep);color:var(--text-primary);font-family:'Cairo',sans-serif;min-height:100vh;display:flex;flex-direction:column}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
-
 nav{display:flex;align-items:center;justify-content:center;padding:14px 32px;border-bottom:.5px solid var(--border);background:rgba(8,14,20,.97)}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--gold)}
+.page{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px 80px;position:relative;z-index:1}
+.card{background:var(--bg-card);border:.5px solid var(--border);border-radius:24px;padding:48px 36px;max-width:580px;width:100%;text-align:center}
 
-.page{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1}
-
-.card{background:var(--bg-card);border:.5px solid var(--border);border-radius:24px;padding:48px 36px;max-width:540px;width:100%;text-align:center}
-
+/* ── Success state ── */
 .success-ring{width:88px;height:88px;border-radius:50%;background:rgba(46,204,113,.1);border:2px solid rgba(46,204,113,.35);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:popIn .4s ease}
 @keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
 .check{font-size:40px}
-
 .title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--green);margin-bottom:10px}
 .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:28px}
 
@@ -38,99 +35,155 @@ nav{display:flex;align-items:center;justify-content:center;padding:14px 32px;bor
 .order-row .val{font-family:'IBM Plex Mono',monospace;color:var(--text-primary)}
 .order-row.total .val{color:var(--gold)}
 
-/* Download button */
+/* ── Download section (locked until verified) ── */
 .download-section{margin-bottom:28px}
 .download-title{font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* VERIFICATION GATE — shown when no tx param */
+.verify-gate{background:var(--bg-card2);border:.5px solid var(--border-gold);border-radius:14px;padding:24px;margin-bottom:16px;text-align:right}
+.verify-gate-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--gold);margin-bottom:8px;text-align:center}
+.verify-gate-desc{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:18px;text-align:center}
+.verify-input-wrap{display:flex;gap:10px;margin-bottom:10px}
+.verify-input{
+  flex:1;
+  padding:12px 14px;
+  background:var(--bg-deep);
+  border:.5px solid var(--border);
+  border-radius:10px;
+  color:var(--text-primary);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  outline:none;
+  transition:border-color .2s;
+}
+.verify-input::placeholder{color:var(--text-muted)}
+.verify-input:focus{border-color:var(--gold)}
+.btn-verify{
+  padding:12px 20px;
+  border-radius:10px;
+  border:none;
+  background:var(--gold);
+  color:#080e14;
+  font-family:'Cairo',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+  white-space:nowrap;
+}
+.btn-verify:hover{background:var(--gold-light)}
+.verify-error{font-size:12px;color:var(--red);margin-top:8px;display:none;text-align:center}
+.verify-hint{font-size:11px;color:var(--text-muted);line-height:1.6;text-align:center}
+.verify-hint a{color:var(--gold);text-decoration:none}
+
+/* Download button — hidden until verified */
 .btn-download{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border-radius:13px;border:none;background:var(--gold);color:#080e14;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;margin-bottom:10px}
 .btn-download:hover{background:var(--gold-light);transform:translateY(-1px)}
 .btn-download .dl-icon{font-size:20px}
+.download-ready{display:none}   /* shown after verification */
 
 .btn-back{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:13px;border:.5px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
 .btn-back:hover{color:var(--text-primary);border-color:var(--gold-dim)}
 
+/* Install steps */
 .steps{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:right}
 .step{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg-card2);border:.5px solid var(--border);border-radius:10px}
 .step-num{width:24px;height:24px;border-radius:50%;background:var(--gold-glow);border:.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;font-family:'IBM Plex Mono',monospace}
 .step-text{font-size:13px;color:var(--text-secondary);line-height:1.55;padding-top:2px}
 .step-text strong{color:var(--text-primary)}
-
 .support-note{font-size:12px;color:var(--text-muted);margin-top:20px}
 .support-note a{color:var(--gold);text-decoration:none}
+
+/* Verified badge */
+.verified-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--green);background:rgba(46,204,113,.08);border:.5px solid rgba(46,204,113,.25);border-radius:20px;padding:4px 12px;margin-bottom:14px}
 </style>
 </head>
 <body>
-
 <nav><div class="logo">BENTRADE</div></nav>
 
 <div class="page">
-  <div class="card">
+<div class="card">
+  <div class="success-ring"><span class="check">✓</span></div>
+  <div class="title" data-ar="تم الدفع بنجاح!" data-en="Payment Successful!">تم الدفع بنجاح!</div>
+  <p class="subtitle" data-ar="شكراً لثقتك في BENTRADE.<br>سجّل رقم معاملتك من PayPal أدناه للحصول على رابط التحميل." data-en="Thank you for trusting BENTRADE.<br>Enter your PayPal Transaction ID below to unlock your download.">شكراً لثقتك في BENTRADE.<br>سجّل رقم معاملتك من PayPal أدناه للحصول على رابط التحميل.</p>
 
-    <div class="success-ring"><span class="check">✓</span></div>
-    <div class="title" data-ar="تم الدفع بنجاح!" data-en="Payment Successful!">تم الدفع بنجاح!</div>
-    <p class="subtitle" data-ar="شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً." data-en="Thank you for trusting BENTRADE.<br>Follow the steps below to get your product instantly.">شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً.</p>
-
-    <div class="order-box">
-      <div class="order-row"><span class="lbl" data-ar="المنتج" data-en="Product">المنتج</span><span class="val" id="oProduct">—</span></div>
-      <div class="order-row"><span class="lbl" data-ar="رقم المعاملة" data-en="Transaction ID">رقم المعاملة</span><span class="val" id="oTx" style="font-size:11px;color:var(--text-muted)">—</span></div>
-      <div class="order-row total"><span class="lbl" data-ar="تم الدفع" data-en="Amount Paid">تم الدفع</span><span class="val" id="oPrice">—</span></div>
-    </div>
-
-    <div class="download-section">
-      <div class="download-title" data-ar="📦 تحميل المنتج" data-en="📦 Download Product">📦 تحميل المنتج</div>
-      <!--
-      ================================================================
-      STEP 3: Replace the href below with your real Google Drive link
-      for each product. Use product ID to serve the right file.
-      Example: href="https://drive.google.com/uc?export=download&id=FILE_ID"
-      ================================================================
-      -->
-      <a id="downloadBtn" class="btn-download" href="#" target="_blank" data-ar="⬇️ تحميل الملف الآن" data-en="⬇️ Download File Now">⬇️ تحميل الملف الآن</a>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text"><strong>حمّل الملف</strong> — اضغط زر التحميل أعلاه للحصول على ملف الـ EA</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text"><strong>افتح MetaTrader</strong> — اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text"><strong>ضع الملف</strong> في مجلد Experts ثم أعد تشغيل MetaTrader</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-text"><strong>أرفق الروبوت</strong> بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً</div>
-      </div>
-    </div>
-
-    <a class="btn-back" href="index.html" data-ar="← العودة للمتجر" data-en="← Back to Store">← العودة للمتجر</a>
-
-    <p class="support-note">
-      هل تحتاج مساعدة في التثبيت؟<br>
-      تواصل معنا: <a href="mailto:support@bentrade.com">support@bentrade.com</a>
-    </p>
-
+  <!-- Order box -->
+  <div class="order-box">
+    <div class="order-row"><span class="lbl" data-ar="المنتج" data-en="Product">المنتج</span><span class="val" id="oProduct">—</span></div>
+    <div class="order-row"><span class="lbl" data-ar="رقم المعاملة" data-en="Transaction ID">رقم المعاملة</span><span class="val" id="oTx" style="font-size:11px;color:var(--text-muted)">—</span></div>
+    <div class="order-row total"><span class="lbl" data-ar="تم الدفع" data-en="Amount Paid">تم الدفع</span><span class="val" id="oPrice">—</span></div>
   </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       PAYMENT VERIFICATION GATE
+       The customer must enter their PayPal Transaction ID.
+       The ID is checked against a known pattern AND an optional
+       server-side database (see README notes below).
+       ════════════════════════════════════════════════════════════ -->
+  <div class="download-section">
+    <div class="download-title" data-ar="📦 تحميل المنتج" data-en="📦 Download Product">📦 تحميل المنتج</div>
+
+    <!-- Gate: shown before verification -->
+    <div class="verify-gate" id="verifyGate">
+      <div class="verify-gate-title" data-ar="🔐 تحقق من الدفع" data-en="🔐 Verify Payment">🔐 تحقق من الدفع</div>
+      <div class="verify-gate-desc" data-ar="أدخل رقم معاملة PayPal الذي وصلك عبر البريد الإلكتروني بعد الدفع." data-en="Enter the PayPal Transaction ID sent to your email after payment.">أدخل رقم معاملة PayPal الذي وصلك عبر البريد الإلكتروني بعد الدفع.</div>
+      <div class="verify-input-wrap">
+        <input
+          class="verify-input"
+          type="text"
+          id="txInput"
+          placeholder="e.g. 7RJ35724XC123456P"
+          maxlength="17"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="btn-verify" onclick="verifyPayment()" id="verifyBtn" data-ar="تحقق" data-en="Verify">تحقق</button>
+      </div>
+      <div class="verify-error" id="verifyError" data-ar="❌ رقم المعاملة غير صحيح. تحقق من البريد الإلكتروني من PayPal وأعد المحاولة." data-en="❌ Transaction ID not recognized. Check your PayPal email and try again.">❌ رقم المعاملة غير صحيح. تحقق من البريد الإلكتروني من PayPal وأعد المحاولة.</div>
+      <div class="verify-hint" data-ar="ستجد رقم المعاملة في إيصال الدفع من PayPal بصيغة مثل: 7RJ35724XC123456P<br>مشكلة؟ <a href='mailto:support@bentrade.com'>تواصل معنا</a>" data-en="Your Transaction ID is in your PayPal receipt email, e.g. 7RJ35724XC123456P<br>Problem? <a href='mailto:support@bentrade.com'>Contact us</a>">ستجد رقم المعاملة في إيصال الدفع من PayPal بصيغة مثل: 7RJ35724XC123456P<br>مشكلة؟ <a href="mailto:support@bentrade.com">تواصل معنا</a></div>
+    </div>
+
+    <!-- Download area: hidden until verified -->
+    <div class="download-ready" id="downloadReady">
+      <div class="verified-badge" id="verifiedBadge">✅ <span data-ar="تم التحقق من الدفع" data-en="Payment Verified">تم التحقق من الدفع</span></div>
+      <a id="downloadBtn" class="btn-download" href="#" target="_blank">
+        <span class="dl-icon">⬇️</span>
+        <span id="downloadBtnTxt" data-ar="تحميل الملف الآن" data-en="Download File Now">تحميل الملف الآن</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Install steps -->
+  <div class="steps" id="installSteps">
+    <div class="step"><div class="step-num">1</div><div class="step-text" data-ar="<strong>حمّل الملف</strong> — اضغط زر التحميل أعلاه للحصول على ملف الـ EA" data-en="<strong>Download</strong> — Click the download button above to get your EA file"><strong>حمّل الملف</strong> — اضغط زر التحميل أعلاه للحصول على ملف الـ EA</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text" data-ar="<strong>افتح MetaTrader</strong> — اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts" data-en="<strong>Open MetaTrader</strong> — Go to File → Open Data Folder → MQL4 or MQL5 → Experts"><strong>افتح MetaTrader</strong> — اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text" data-ar="<strong>ضع الملف</strong> في مجلد Experts ثم أعد تشغيل MetaTrader" data-en="<strong>Place the file</strong> in the Experts folder then restart MetaTrader"><strong>ضع الملف</strong> في مجلد Experts ثم أعد تشغيل MetaTrader</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text" data-ar="<strong>أرفق الروبوت</strong> بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً" data-en="<strong>Attach the robot</strong> to your chart and click OK — automated trading will start"><strong>أرفق الروبوت</strong> بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً</div></div>
+  </div>
+
+  <a class="btn-back" href="index.html" data-ar="← العودة للمتجر" data-en="← Back to Store">← العودة للمتجر</a>
+
+  <p class="support-note" data-ar="هل تحتاج مساعدة في التثبيت؟<br>تواصل معنا: <a href='mailto:support@bentrade.com'>support@bentrade.com</a>" data-en="Need help with installation?<br>Contact us: <a href='mailto:support@bentrade.com'>support@bentrade.com</a>">
+    هل تحتاج مساعدة في التثبيت؟<br>
+    تواصل معنا: <a href="mailto:support@bentrade.com">support@bentrade.com</a>
+  </p>
+</div>
 </div>
 
 <script>
-// ================================================================
-// Download links per product — STEP 3: Replace # with real links
-// Get links from Google Drive: right-click → Share → Copy link
-// Then convert to direct download:
-// https://drive.google.com/uc?export=download&id=YOUR_FILE_ID
-// ================================================================
+// ════════════════════════════════════════════════════════════════
+// DOWNLOAD LINKS — replace placeholder FILE IDs with real ones
+// Get from Google Drive: right-click → Share → Copy link → convert:
+//   https://drive.google.com/uc?export=download&id=YOUR_FILE_ID
+// ════════════════════════════════════════════════════════════════
 const DOWNLOAD_LINKS = {
-  'zentra':        'https://drive.google.com/file/d/YOUR_ZENTRA_FILE_ID/view',
-  'golden-guard':  'https://drive.google.com/file/d/YOUR_GOLDEN_GUARD_FILE_ID/view',
-  'golden-algo':   'https://drive.google.com/file/d/YOUR_GOLDEN_ALGO_FILE_ID/view',
-  'gold-strike':   'https://drive.google.com/file/d/YOUR_GOLD_STRIKE_FILE_ID/view',
-  'prime-trader':  'https://drive.google.com/file/d/YOUR_PRIME_TRADER_FILE_ID/view',
-  'forex-strike':  'https://drive.google.com/file/d/YOUR_FOREX_STRIKE_FILE_ID/view',
-  'bitrocket':     'https://drive.google.com/file/d/YOUR_BITROCKET_FILE_ID/view',
+  'zentra':       'https://drive.google.com/file/d/YOUR_ZENTRA_FILE_ID/view',
+  'golden-guard': 'https://drive.google.com/file/d/YOUR_GOLDEN_GUARD_FILE_ID/view',
+  'golden-algo':  'https://drive.google.com/file/d/YOUR_GOLDEN_ALGO_FILE_ID/view',
+  'gold-strike':  'https://drive.google.com/file/d/YOUR_GOLD_STRIKE_FILE_ID/view',
+  'prime-trader': 'https://drive.google.com/file/d/YOUR_PRIME_TRADER_FILE_ID/view',
+  'forex-strike': 'https://drive.google.com/file/d/YOUR_FOREX_STRIKE_FILE_ID/view',
+  'bitrocket':    'https://drive.google.com/file/d/YOUR_BITROCKET_FILE_ID/view',
 };
 
 const PRICES = {
@@ -138,75 +191,171 @@ const PRICES = {
   'gold-strike':'$149','prime-trader':'$159','forex-strike':'$139','bitrocket':'$169'
 };
 
-const TY={
-  ar:{title:'تم الدفع بنجاح!',
-      sub:'شكراً لثقتك في BENTRADE.<br>اتبع الخطوات أدناه للحصول على منتجك فوراً.',
-      dlTitle:'📦 تحميل المنتج',dlBtn:'⬇️ تحميل الملف الآن',
-      s1:'المنتج',s2:'رقم المعاملة',s3:'تم الدفع',
-      st1:'حمّل الملف',sd1:'اضغط زر التحميل أعلاه للحصول على ملف الـ EA',
-      st2:'افتح MetaTrader',sd2:'اذهب إلى File → Open Data Folder → MQL4 أو MQL5 → Experts',
-      st3:'ضع الملف',sd3:'في مجلد Experts ثم أعد تشغيل MetaTrader',
-      st4:'أرفق الروبوت',sd4:'بالرسم البياني واضغط موافق — سيبدأ التداول تلقائياً',
-      back:'← العودة للمتجر',support:'هل تحتاج مساعدة في التثبيت؟'},
-  en:{title:'Payment Successful!',
-      sub:'Thank you for trusting BENTRADE.<br>Follow the steps below to get your product instantly.',
-      dlTitle:'📦 Download Product',dlBtn:'⬇️ Download File Now',
-      s1:'Product',s2:'Transaction ID',s3:'Amount Paid',
-      st1:'Download the file',sd1:'Click the download button above to get your EA file',
-      st2:'Open MetaTrader',sd2:'Go to File → Open Data Folder → MQL4 or MQL5 → Experts',
-      st3:'Place the file',sd3:'In the Experts folder then restart MetaTrader',
-      st4:'Attach the robot',sd4:'To your chart and click OK — automated trading will start',
-      back:'← Back to Store',support:'Need help with installation?'}
-};
-const _lang = () => {
-  const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
-  return m ? m[1] : 'ar';
-};
-const _setLang = (l) => {
-  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
-  try { localStorage.setItem('bt_lang', l); } catch(e){}
-};
+// ════════════════════════════════════════════════════════════════
+// PAYMENT VERIFICATION DATABASE
+//
+// HOW IT WORKS (client-side fallback, no server needed for GitHub Pages):
+//
+// Option A — Simple format check (current default):
+//   PayPal Transaction IDs are always 17 alphanumeric uppercase characters.
+//   We validate the format only. This stops casual access but is not fraud-proof.
+//   Good enough for GitHub Pages with no backend.
+//
+// Option B — Known-IDs list (add verified TXNs manually):
+//   Paste in real transaction IDs you receive from PayPal here.
+//   Only those exact IDs unlock the download. Very secure but manual effort.
+//
+// Option C — Server-side (recommended for production):
+//   Use a Netlify/Vercel Function or Firebase to verify with PayPal's API.
+//   See: https://developer.paypal.com/docs/api/payments/v1/#payment_get
+//   Your serverless function checks the TX status and returns {valid:true/false}.
+//   Uncomment and configure the fetch() block below.
+//
+// Option D — Google Sheets as a DB (zero-cost, manual):
+//   After each PayPal payment, PayPal can send an IPN to a Google Apps Script
+//   that writes the TX ID into a Sheet. The client fetches the sheet via a
+//   published CSV and checks if the TX ID is there.
+// ════════════════════════════════════════════════════════════════
+
+// OPTION B: Paste real Transaction IDs here (17 chars, uppercase, no spaces)
+// Example: 'HYH9HMAKX5HE81234'
+const VERIFIED_TX_IDS = new Set([
+  // 'ADD_REAL_TX_ID_HERE',
+  // 'ANOTHER_TX_ID_HERE',
+]);
+
+// PayPal TX ID regex: 17 alphanumeric characters, uppercase
+const TX_REGEX = /^[A-Z0-9]{17}$/;
+
+async function verifyPayment() {
+  const btn   = document.getElementById('verifyBtn');
+  const input = document.getElementById('txInput');
+  const errEl = document.getElementById('verifyError');
+  const rawTx = input.value.trim().toUpperCase();
+
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  // ── Format check (always run) ──────────────────────────────
+  if (!TX_REGEX.test(rawTx)) {
+    showVerifyError(errEl, btn);
+    return;
+  }
+
+  // ── OPTION C: Server-side verification (uncomment to enable) ──
+  // Requires a serverless endpoint at /api/verify-payment
+  // that accepts POST { txId, productId } and returns { valid: bool }
+  /*
+  try {
+    const res = await fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ txId: rawTx, productId: productId })
+    });
+    const data = await res.json();
+    if (!data.valid) { showVerifyError(errEl, btn); return; }
+  } catch(e) {
+    // Server unreachable — fall through to local check
+    console.warn('Server verification failed, falling back to local check:', e);
+  }
+  */
+
+  // ── OPTION B: Check known IDs set ─────────────────────────
+  // If VERIFIED_TX_IDS has entries, enforce exact match.
+  // If the set is empty, accept any well-formed TX ID (Option A).
+  if (VERIFIED_TX_IDS.size > 0 && !VERIFIED_TX_IDS.has(rawTx)) {
+    showVerifyError(errEl, btn);
+    return;
+  }
+
+  // ── Verification passed — unlock download ─────────────────
+  document.getElementById('oTx').textContent = rawTx;
+  revealDownload(rawTx);
+}
+
+function showVerifyError(errEl, btn) {
+  const l = _readLang();
+  errEl.textContent = errEl.getAttribute('data-' + l);
+  errEl.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = _readLang() === 'ar' ? 'تحقق' : 'Verify';
+}
+
+function revealDownload(txId) {
+  document.getElementById('verifyGate').style.display   = 'none';
+  document.getElementById('downloadReady').style.display = 'block';
+
+  const dlBtn = document.getElementById('downloadBtn');
+  dlBtn.href = DOWNLOAD_LINKS[productId] || '#';
+
+  // Store in sessionStorage so a page refresh doesn't re-lock
+  try { sessionStorage.setItem('bt_verified_' + productId, txId); } catch(e){}
+}
+
+// ── Language ──────────────────────────────────────────────────────────────────
 const _readLang = () => {
   const m = document.cookie.match(/(?:^|; )bt_lang=([^;]*)/);
   if (m) return m[1];
   try { return localStorage.getItem('bt_lang') || 'ar'; } catch(e){ return 'ar'; }
 };
+const _setLang = (l) => {
+  document.cookie = 'bt_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+  try { localStorage.setItem('bt_lang', l); } catch(e){}
+};
 let langTY = _readLang();
-// Apply direction immediately — no flash
+
 (function(){
-  const l = langTY;
-  document.documentElement.setAttribute('lang', l);
-  document.documentElement.setAttribute('dir', l==='en'?'ltr':'rtl');
-  document.documentElement.setAttribute('data-lang', l);
+  document.documentElement.setAttribute('lang', langTY);
+  document.documentElement.setAttribute('dir', langTY === 'en' ? 'ltr' : 'rtl');
+  document.documentElement.setAttribute('data-lang', langTY);
 })();
+
 function applyLangTY() {
   const l = langTY;
   document.documentElement.setAttribute('lang', l);
-  document.documentElement.setAttribute('dir', l==='en'?'ltr':'rtl');
+  document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
   document.documentElement.setAttribute('data-lang', l);
-  _setLang(l);
-  document.getElementById('langBtn').textContent = l==='ar'?'EN':'عر';
   document.querySelectorAll('[data-ar]').forEach(el => {
-    const val = el.getAttribute('data-'+l);
+    const val = el.getAttribute('data-' + l);
     if (!val) return;
     if (el.children.length === 0) el.textContent = val;
     else el.innerHTML = val;
   });
+  // Re-apply verify button text
+  const vBtn = document.getElementById('verifyBtn');
+  if (vBtn && !vBtn.disabled) vBtn.textContent = l === 'ar' ? 'تحقق' : 'Verify';
 }
-function toggleLang(){
-  langTY = langTY==='ar'?'en':'ar';
-  applyLangTY();
-}
-applyLangTY();
-const p  = new URLSearchParams(window.location.search);
-const id = p.get('id')      || 'zentra';
-const tx = p.get('tx')      || '—';
-const nm = p.get('product') || 'BENTRADE EA';
+
+// Allow Enter key in input
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('txInput');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') verifyPayment(); });
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+const p      = new URLSearchParams(window.location.search);
+const productId = p.get('id') || 'zentra';
+const txParam   = p.get('tx') || '';
+const nm        = p.get('product') || 'BENTRADE EA';
 
 document.getElementById('oProduct').textContent = decodeURIComponent(nm);
-document.getElementById('oTx').textContent      = tx;
-document.getElementById('oPrice').textContent   = PRICES[id] || '—';
-document.getElementById('downloadBtn').href     = DOWNLOAD_LINKS[id] || '#';
+document.getElementById('oPrice').textContent   = PRICES[productId] || '—';
+
+// If PayPal IPN or return URL already passed a tx param, auto-verify
+if (txParam && TX_REGEX.test(txParam.toUpperCase())) {
+  document.getElementById('txInput').value = txParam;
+  document.getElementById('oTx').textContent = txParam.toUpperCase();
+}
+
+// Check if already verified in this session (page refresh safe)
+const sessionTx = (() => { try { return sessionStorage.getItem('bt_verified_' + productId); } catch(e){ return null; } })();
+if (sessionTx) {
+  document.getElementById('oTx').textContent = sessionTx;
+  revealDownload(sessionTx);
+}
+
+applyLangTY();
 </script>
 </body>
 </html>
