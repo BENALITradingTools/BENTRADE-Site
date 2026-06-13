@@ -508,8 +508,8 @@ const _setLang = (l) => {
   try { localStorage.setItem('bt_lang', l); } catch(e){}
 };
 
-let currentCat = 'robots';
-let currentPlat = 'robots';
+let currentCat = 'all';
+let currentPlat = 'all';
 let currentLang = _readLang();
 
 const LABELS = {
@@ -522,8 +522,8 @@ function switchCat(cat, btn) {
   currentPlat = 'all';
   document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const sw = document.getElementById('subTabsWrap');
-  sw.classList.toggle('show', cat !== 'all');
+// const sw = document.getElementById('subTabsWrap');
+//  sw.classList.toggle('show', cat !== 'all');
   document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
   document.querySelector('.sub-tab[data-plat="all"]').classList.add('active');
   filterCards();
