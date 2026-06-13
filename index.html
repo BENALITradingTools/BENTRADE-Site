@@ -136,7 +136,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:12px 3
 .btn-buy:hover{background:var(--gold-light)}
 
 /* RTL/LTR switch */
-[data-lang="en"]{direction:ltr;font-family:'Syne',sans-serif}
+
+html[dir="rtl"] body {
+  direction: rtl;
+}
+
+html[dir="ltr"] body {
+  direction: ltr;
+}  
 [data-lang="en"] .card-body,[data-lang="en"] .product-desc,[data-lang="en"] .features-list{font-family:'Syne',sans-serif}
 
 @media(max-width:640px){
